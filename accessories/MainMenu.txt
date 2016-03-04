@@ -1,0 +1,9 @@
+Hello and Welcome to TestBundleExpress:
+The ultimate penetration tests package for IoT developers
+Please choose one of the following:
+
+1. Enter The Test Plan Builder Menu.
+2. Enter The Test Manager Utility.
+3. See current Group and tests List.
+4. About.
+5. Exit.

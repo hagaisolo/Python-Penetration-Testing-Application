@@ -1,0 +1,14 @@
+TPB - Test Plan Builder
+
+The TPB is a feature responsible to design a proper test
+plan while taking into consideration users demand,
+available valid Groups and tests (after Parameter
+Collection) and maybe more system properties
+
+Navigating the TPB tool:
+"Single" - Create a test plan of a single group
+"Full" - create a test plan including all groups
+"Custom" - Create a custom test plan
+"List" - print a list of all available groups and tests
+"Help" - open this menu
+"Quit" - Exit The TPB

@@ -1,0 +1,7 @@
+# param.txt
+# This file describe the required parameters for this group to run
+
+List:
+_NetworkCloud bool "Are you running in Cloud mode (else we assume LAN mode)?\n" NON NON
+_IP_Local "What is the device local IP address?\n" NON NON
+_IP_Glob "What is the LAN global IP address?\n" NON NON

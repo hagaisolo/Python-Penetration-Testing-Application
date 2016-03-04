@@ -1,0 +1,4 @@
+# The ping group is for trying for now it will contain only simple ping test
+
+List:
+Ping
