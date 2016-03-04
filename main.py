@@ -38,6 +38,7 @@ if __name__ == '__main__':
                     break
                 test_manager = TMMain.TM(main.test_plan)
                 test_manager.gather_parameters()
+                test_manager.run_tests()
             elif case('3'):
                 GroupAndTestsLister.Lister()
             elif case('4'):

@@ -5,4 +5,5 @@
 
 class TestPlan(object):
     def __init__(self,some_list):
-        self.group_list = some_list
+        self.group_list = []
+        self.group_list.append(some_list)

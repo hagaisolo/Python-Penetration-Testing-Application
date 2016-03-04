@@ -1,4 +1,5 @@
 # Pather
+__author__ = 'Hagai'
 from sys import path
 
 
@@ -9,7 +10,7 @@ def group():
 
 def parse_parameter(p):
     for i in range(0,len(p)):
-
+        pass
 
 if __name__ == "__main__":
     pa = "_IP_Glob \"What is the LAN global IP address?\n\" NON NON"

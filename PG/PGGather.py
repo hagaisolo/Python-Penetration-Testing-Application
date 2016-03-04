@@ -28,8 +28,9 @@ def gather_param_demand(group):
                 index += 1
         except ValueError:
             pass
+    param_list.pop()
     delete_duplication(param_list)
-    print param_list
+    return param_list
 
 
 def delete_duplication(dup_list):
@@ -40,7 +41,28 @@ def delete_duplication(dup_list):
                 dup_list.remove(dup_list[j])
                 limit -= 1
 
+
+def parameter_parser(raw_param):
+    line_list = []
+    for line in raw_param:
+        line = line.split('><')
+        line_list.append(line)
+    return line_list
+
+
+def gather_question_parameter(parsed_param):
+    param_list = []
+    for i in range(len(parsed_param)):
+        if parsed_param[i][3] == "NON":
+            param_list.append((parsed_param[i][0], raw_input(parsed_param[i][2])))
+    return param_list
+
+
+
 #    -------for DEBUG purposes--------
 if __name__ == '__main__':
     list_group = "Ping"
-    gather_param_demand([list_group])
+    param = gather_param_demand([list_group])
+    param = parameter_parser(param)
+    param_temp = gather_question_parameter(param)
+    a=5;
