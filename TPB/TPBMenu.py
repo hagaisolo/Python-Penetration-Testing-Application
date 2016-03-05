@@ -3,6 +3,7 @@ from accessories import switch_case
 from accessories import GroupAndTestsLister
 from sys import path
 from TestPlan import TestPlan
+import pickle
 
 
 def menu():
@@ -22,7 +23,8 @@ def menu():
             elif case('Single'):
                 group = raw_input("Please Enter Group Name To Execute\n")
                 test_plan = TestPlan(group)
-                return test_plan
+                test_plan_file = open("", 'wb')
+                pickle.dump(test_plan,test_plan_file)
             elif case('Quit'):
                 print "Exiting TPB...\n"
                 loop_flag = False

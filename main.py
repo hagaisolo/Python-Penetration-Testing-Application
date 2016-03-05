@@ -6,6 +6,7 @@ from sys import path
 from TPB import TPBMain
 from TPB import TestPlan
 from TM import TMMain
+import pickle
 
 
 class Main(object):
@@ -29,13 +30,15 @@ if __name__ == '__main__':
         for case in switch_case.switch(x):
             if case('1'):
                 Builder = TPBMain.TPB()
-                main.test_plan = Builder.intro_menu()
-                print main.test_plan.group_list
+                Builder.intro_menu()
             elif case('2'):
                 # Enters the TM - TestManager, if main.test_plan.group_list is empty returns
+                test_plan_file = open("accessories/TestPlan", 'rb')
+                main.test_plan = pickle.load(test_plan_file)
                 if main.test_plan.group_list == '':
                     print ("no groups were selected...\n")
                     break
+                test_plan_file.close()
                 test_manager = TMMain.TM(main.test_plan)
                 test_manager.gather_parameters()
                 test_manager.run_tests()

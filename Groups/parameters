@@ -1,12 +1,12 @@
 (lp0
 (S'_IP'
 p1
-S'www.walla.co.il'
+S'192.168.1.1'
 p2
 tp3
 a(S'_NumOfPings'
 p4
-S'12'
+S'5'
 p5
 tp6
 a.
