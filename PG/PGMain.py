@@ -41,7 +41,7 @@ class PG(object):
 
 # For Debug purposes
 if __name__ == "__main__":
-    groups = ["Ping"]
+    groups = ["DOS"]
     param_obj = PG()
     param_obj.group_list = groups
     param_obj.gather_param_demand()

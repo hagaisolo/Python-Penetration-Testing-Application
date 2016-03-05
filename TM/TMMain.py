@@ -31,7 +31,7 @@ class TM(object):
     def run_tests(self):
         print "You've selected run_tests method"
         for item in self.test_plan.group_list:
-            Popen([executable, 'Groups//'+item+'//Ping.py'], creationflags=CREATE_NEW_CONSOLE)
+            Popen([executable, 'Groups//'+item+'//' + item + '.py'], creationflags=CREATE_NEW_CONSOLE)
         pass
 
 # For debug purposes

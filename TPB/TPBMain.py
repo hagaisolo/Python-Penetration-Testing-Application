@@ -33,6 +33,7 @@ class TPB(object):
                     test_plan_file = open("accessories/TestPlan", 'wb')
                     pickle.dump(test_plan, test_plan_file)
                     test_plan_file.close()
+                    loop_flag = False
                 elif case('Quit'):
                     print "Exiting TPB...\n"
                     loop_flag = False
