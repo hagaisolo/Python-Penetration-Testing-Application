@@ -1,5 +1,6 @@
 # This "virtual" class in a bunch of common method intended to used by all tools
-from os import path
+from os import path, listdir
+from sys import path as sys_path
 
 
 class ToolBasic(object):
@@ -8,8 +9,8 @@ class ToolBasic(object):
 
     @staticmethod
     def path_abs():
-        path_access = path.abspath("ToolBasic.py")
-        index = path_access.index("accessories")
+        path_access = path.abspath("main.py")
+        index = path_access.index("main")
         path_project = path_access[0:index:1]
         return path_project
 
@@ -21,6 +22,20 @@ class ToolBasic(object):
             for _sub_item in item:
                 print _sub_item + ' , ',
             print '\n'
+
+    @staticmethod
+    def help_text():
+        file_str = path[0] + "\TPB\TPBHelp.txt"
+        f = open(file_str,'r')
+        print f.read()
+
+    @staticmethod
+    def check_is_group_exists(group):
+        my_path = sys_path[0]+"\Groups"
+        for name in listdir(my_path):
+            if name == group:
+                return True
+        return False
 
 
 # For debug purposes

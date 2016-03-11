@@ -12,12 +12,14 @@ class Lister(object):
         mypath = path[0]+"\Groups"
         m = 0
         for name in listdir(mypath):
-            m +=1
+            if name == "parameters" or name == "__init__.py":
+                continue
+            m += 1
             print "Group %s - \"" % m + name + "\" - Include the following Tests:"
-            str_temp = mypath + "\\" + name +"\Tests.txt"
+            str_temp = mypath + "\\" + name + "\Tests.txt"
             f = open(str_temp, 'r')
             file_temp = f.read()
             file_temp = file_temp.split()
             j = file_temp.index("List:")
-            for i in range (j+1,len(file_temp)):
+            for i in range(j+1, len(file_temp)):
                 print file_temp[i]
