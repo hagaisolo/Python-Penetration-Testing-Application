@@ -1,7 +1,7 @@
 (lp0
 (S'_NetworkCloud'
 p1
-S'False'
+S'Flase'
 p2
 tp3
 a(S'_IP'
@@ -14,4 +14,9 @@ p7
 S'8080'
 p8
 tp9
+a(S'_Scapy'
+p10
+S'True'
+p11
+tp12
 a.
