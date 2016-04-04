@@ -20,7 +20,7 @@ class SSHForce(object):
             password = getpass.getpass('password: ')
             ssh.connect(hostname=self.hostname, username=self.username, password=password)
         except paramiko.SFTPError, e:
-            print "Failed to Login"
+            print "Failed to Lo gin"
             print e
 
 

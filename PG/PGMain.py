@@ -33,32 +33,23 @@ class PG(ToolBasic.ToolBasic):
             str_temp = my_path+name+"\Param.txt"
             try:
                 f = open(str_temp, 'r')
-
                 temp_line = f.readline()
                 while temp_line != "List:\n":
                     temp_line = f.readline()
-                index = 0
                 while True:
                     param_list.append(f.readline())
-                    if param_list[index] == '':
+                    if param_list[-1] == '':
                         param_list.pop()
                         break
-                    index += 1
-            except ValueError:
-                pass
+            except ValueError, e:
+                print e
         while param_list[-1] == '':
             param_list.pop()
-        self.delete_duplication(param_list)
-        self.raw_parameters = param_list
+        self.raw_parameters = self.delete_duplication(param_list)
 
     @staticmethod
     def delete_duplication(dup_list):
-        limit = len(dup_list)-1
-        for i in range(0, limit):
-            for j in range(i+1, limit):
-                if dup_list[j] == dup_list[i]:
-                    dup_list.remove(dup_list[j])
-                    limit -= 1
+         return list(set(dup_list))
 
     def parameter_parser(self):
         line_list = []
@@ -76,7 +67,7 @@ class PG(ToolBasic.ToolBasic):
 
 # For Debug purposes
 if __name__ == "__main__":
-    groups = ["DOS"]
+    groups = ["DDOS"]
     param_obj = PG()
     param_obj.group_list = groups
     param_obj.gather_param_demand()

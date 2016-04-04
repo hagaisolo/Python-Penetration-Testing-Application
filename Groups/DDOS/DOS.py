@@ -1,5 +1,5 @@
 # This is the main DOS group code
-# First it will generate DOS (Denial of service) attack on the device while checking if
+# First it will generate DDOS (Denial of service) attack on the device while checking if
 # the device responds correctly
 import socket
 import sys
@@ -134,7 +134,7 @@ def scapy_attack(src_ip, dest_ip, src_port, dest_port ):
 if __name__ == "__main__":
     for NUM_CANNON in range (20):
         print 'GET / HTTP /1.1\r\nHost: google.com\r\n\r\n'
-        print "DOS Group - check the device resistance to tcp flood of %s Cannons" % NUM_CANNON
+        print "DDOS Group - check the device resistance to tcp flood of %s Cannons" % NUM_CANNON
         parameters = collect_param()
         parsed_parameters_main = parse_param(parameters)
         print "Parsed Successfully"

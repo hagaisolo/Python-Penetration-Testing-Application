@@ -8,7 +8,6 @@ _IP_Local "What is the device local IP address?\n" NON NON
 } # until here
 
 List:
-_NetworkCloud><bool><"Are you running in Cloud mode (else we assume LAN mode)?\n"><NON><NON
-_IP><int><"What is the LAN global IP address?\n"><NON><NON
-_Port><int><"What is the device Port?\n"><NON><NON
-_Scapy><bool><"Should we use scapy?"><NON><NON
+_NetworkCloud><bool><"Are you behind a router using port forwarding (True \ False )?"><NON><NON
+_IP><int><"What is the device IP address?"><NON><NON
+_Port><int><"What is the device Port?"><NON><NON

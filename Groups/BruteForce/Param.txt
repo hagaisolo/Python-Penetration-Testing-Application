@@ -2,8 +2,6 @@
 # This file describe the required parameters for this group to run
 
 List:
-_NetworkCloud bool "Are you running in Cloud mode (else we assume LAN mode)?\n" NON NON
-_LAN int "What is you LAN setup?\n (1) Ethernet\n(2) Wi-fi\n(3)Zigbee\n(4)BlueTooth\n" NON NON
-_IP_Local IPAddress "What is the device local IP address?\n" NON NON
-_IP_Glob IPAddress "What is the LAN global IP address?\n" NON NON
-_Port int "What is the device Port (can get it automatically with NMAP if only one device on the LAN)?\n" NMAP nmap<param><param>???
+_NetworkCloud><bool><"Are you behind a router using port forwarding (True \ False )?"><NON><NON
+_IP><int><"What is the device IP address?"><NON><NON
+_Port><int><"What is the device Port?"><nmap><NON

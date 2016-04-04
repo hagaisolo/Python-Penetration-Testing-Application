@@ -21,7 +21,7 @@ def collect_param():
     return param_list
 
 if __name__ == "__main__":
-    print "Hello World"
+    print "Hello World This is Ping test"
     parameters = collect_param()
     ping(ip=parameters[0][1], count=parameters[1][1])
     raw_input("Press any key To exit group")

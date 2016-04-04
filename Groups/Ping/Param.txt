@@ -2,5 +2,5 @@
 # This file describe the required parameters for this group to run
 
 List:
-_IP><bool><"What is the device local IP address?"><NON><NON
+_IP><int><"What is the device IP address?"><NON><NON
 _NumOfPings><int><"How many pings to send?"><NON><NON

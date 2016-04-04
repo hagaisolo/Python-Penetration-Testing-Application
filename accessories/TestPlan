@@ -13,8 +13,10 @@ Rp4
 S'group_list'
 p6
 (lp7
-S'DOS'
+S'BruteForce'
 p8
-aS'Ping'
+aS'DDOS'
 p9
+aS'Ping'
+p10
 asb.
