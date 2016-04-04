@@ -1,7 +1,7 @@
 # !usr/bin/python
 from accessories import switch_case
 from time import sleep
-from accessories import GroupAndTestsLister
+from accessories import ToolBasic
 from sys import path
 from TPB import TPBMain
 from TM import TMMain
@@ -29,7 +29,7 @@ if __name__ == '__main__':
                 test_manager = TMMain.TM()
                 test_manager.menu()
             elif case('3'):
-                GroupAndTestsLister.Lister()
+                ToolBasic.ToolBasic.list_group()
             elif case('4'):
                 print ("Final Project @ Yuppi\n")
             elif case('5'):

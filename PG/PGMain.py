@@ -4,12 +4,13 @@
 # First it scan the groups Param.txt files and arrange a list of all required
 # Parameters (some groups ask for the same parameters, often) the it start
 # collecting the parameters both by autonomous SW and user input
-# self.raw_parameter structure : cell#0 parameter name ; cell#1 type ; cell#2 Question ; cell #3 Auto? ; cell#4 external tool
+# self.raw_parameter structure :
+#       cell#0 parameter name ; cell#1 type ; cell#2 Question ; cell #3 Auto? ; cell#4 external tool
 # self.parameter structure: cell#0 parameter name ; cell#1 parameter value
-from accessories import Pathes
+from accessories import ToolBasic
 
 
-class PG(object):
+class PG(ToolBasic.ToolBasic):
 
     def __init__(self):
         self.raw_parameters = []
@@ -25,7 +26,7 @@ class PG(object):
         self.Menu = True
 
     def gather_param_demand(self):
-        my_path = Pathes.group()
+        my_path = self.path_abs() + "Groups\\"
         m = 0
         param_list = []
         for name in self.group_list:
@@ -40,11 +41,13 @@ class PG(object):
                 while True:
                     param_list.append(f.readline())
                     if param_list[index] == '':
+                        param_list.pop()
                         break
                     index += 1
             except ValueError:
                 pass
-        param_list.pop()
+        while param_list[-1] == '':
+            param_list.pop()
         self.delete_duplication(param_list)
         self.raw_parameters = param_list
 
