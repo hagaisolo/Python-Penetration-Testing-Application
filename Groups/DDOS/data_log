@@ -1,0 +1,76 @@
+********************** DDOS test **********************
+Parameters Parsed Successfully
+Successful - The device can respond while being flooded
+Test device resistance to tcp flood of 1 Cannons
+Initiating Cannon 0 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 1 Cannons
+Test device resistance to tcp flood of 2 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 2 Cannons
+Test device resistance to tcp flood of 3 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Initiating Cannon 2 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 3 Cannons
+Test device resistance to tcp flood of 4 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Initiating Cannon 2 in separate thread
+Initiating Cannon 3 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 4 Cannons
+Test device resistance to tcp flood of 5 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Initiating Cannon 2 in separate thread
+Initiating Cannon 3 in separate thread
+Initiating Cannon 4 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 5 Cannons
+Test device resistance to tcp flood of 6 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Initiating Cannon 2 in separate thread
+Initiating Cannon 3 in separate thread
+Initiating Cannon 4 in separate thread
+Initiating Cannon 5 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 6 Cannons
+Test device resistance to tcp flood of 7 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Initiating Cannon 2 in separate thread
+Initiating Cannon 3 in separate thread
+Initiating Cannon 4 in separate thread
+Initiating Cannon 5 in separate thread
+Initiating Cannon 6 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 7 Cannons
+Test device resistance to tcp flood of 8 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Initiating Cannon 2 in separate thread
+Initiating Cannon 3 in separate thread
+Initiating Cannon 4 in separate thread
+Initiating Cannon 5 in separate thread
+Initiating Cannon 6 in separate thread
+Initiating Cannon 7 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 8 Cannons
+Test device resistance to tcp flood of 9 Cannons
+Initiating Cannon 0 in separate thread
+Initiating Cannon 1 in separate thread
+Initiating Cannon 2 in separate thread
+Initiating Cannon 3 in separate thread
+Initiating Cannon 4 in separate thread
+Initiating Cannon 5 in separate thread
+Initiating Cannon 6 in separate thread
+Initiating Cannon 7 in separate thread
+Initiating Cannon 8 in separate thread
+Successful - The device can respond while being flooded
+Device Resisted 9 Cannons
+Test Finished Correctly

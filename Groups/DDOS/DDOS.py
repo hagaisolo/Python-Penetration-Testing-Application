@@ -2,12 +2,11 @@
 # First it will generate DDOS (Denial of service) attack on the device while checking if
 # the device responds correctly
 import socket
-import sys
 import pickle
 from time import sleep
 from threading import Thread
-# from time import sleep
-# from scapy.all import *
+
+global data_log
 
 
 class Communicator(object):
@@ -24,7 +23,8 @@ Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4\r\n"""
 
     def communicate(self):
         try:
-            count = 0
+            index = 0
+            count = -1
             for index in range(10):
                 communicator_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 communicator_socket.connect((self.partner_ip, self.port ))
@@ -32,20 +32,19 @@ Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4\r\n"""
                 receive_data = communicator_socket.recv(512)
                 print receive_data
                 count += 1
-                communicator_socket.shutdown
                 communicator_socket.close()
                 sleep(1)
-            if count == i:
-                print "Succesfull - The device can respond while being flooded"
-                # raw_input("Press any key to end test")    //helped debug at first
+            if count == index:
+                data_log.write("Successful - The device can respond while being flooded\n")
                 return True
             else:
-                print "FAIL!!! - The device cannot respond while being flooded"
-                # raw_input("Press any key to end test")
+                data_log.write("FAIL!!! - The device cannot respond while being flooded\n")
                 return False
         except socket.error, e:
-            print e
-            print "Connumication Failed, Device is not resistance to"
+            str_e = "e" % e
+            data_log.write(str_e)
+            data_log.write("Communication Failed, The device can respond while being flooded\n")
+            return False
 
 
 class SimpleDOSCannon(object):
@@ -74,13 +73,12 @@ Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4\r\n"""
                 cannon_socket.send(msg)
                 # receive_data = cannon_socket.recv(512)
                 # print receive_data
-                cannon_socket.shutdown
                 cannon_socket.close()
                 del cannon_socket
             except socket.error, e:
                 print e
                 cannon_socket.shutdown(socket.SHUT_RDWR)
-                cannon_socket.close
+                cannon_socket.close()
                 del cannon_socket
                 print "Thread has failed!!!"
 
@@ -92,7 +90,6 @@ Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4\r\n"""
         try:
             cannon_socket.connect((self.target_ip, self.port))
             cannon_socket.send("Hello")
-            print (" Found Target!!!")
         except (IOError, socket.error, socket.herror) as e:
             print e
 
@@ -115,40 +112,38 @@ def parse_param(param_list):
 def thread_routine(_parsed_parameters_main):
     cannon = SimpleDOSCannon(_ip=_parsed_parameters_main['_IP'], _port=_parsed_parameters_main['_Port'])
     cannon.aim_at_target()
-    print "Preparing to attack"
     cannon.attack()
-
-"""
-def scapy_attack(src_ip, dest_ip, src_port, dest_port ):
-    i=1
-    while True:
-        IP1 = scapy.IP(src=src_ip, dst=dest_ip)
-        TCP1 = scapy.TCP(sport=src_port, dport=dest_port)
-        pkt = IP1 / TCP1
-        scapy.send(pkt, inter= .001)
-        print "packet sent" , i
-        i = i+1
-"""
 
 
 if __name__ == "__main__":
-    for NUM_CANNON in range (20):
-        print 'GET / HTTP /1.1\r\nHost: google.com\r\n\r\n'
-        print "DDOS Group - check the device resistance to tcp flood of %s Cannons" % NUM_CANNON
-        parameters = collect_param()
-        parsed_parameters_main = parse_param(parameters)
-        print "Parsed Successfully"
-        # if parsed_parameters_main["_Scapy"]:
-        # scapy_attack(dest_port=["_Port"],dest_ip=parsed_parameters_main["_IP"],src_ip='192.168.1.1', src_port=8080)
+    data_log = open("Groups//DDOS//data_log", 'w')
+    data_log.write("********************** DDOS test **********************\n")
+    parameters = collect_param()
+    parsed_parameters_main = parse_param(parameters)
+    data_log.write("Parameters Parsed Successfully\n")
+    com = Communicator(_ip=parsed_parameters_main["_IP"], _port=parsed_parameters_main["_Port"])
+    if com.communicate() is False:
+        data_log.write("Cannot initiate communication at all\n Exists test\n")
+        exit(1)
+
+    for NUM_CANNON in range(1, 10):
+        data_log.write("Test device resistance to tcp flood of %s Cannons\n" % NUM_CANNON)
         th = ['']*NUM_CANNON
         for i in range(NUM_CANNON):
             th[i] = Thread(target=thread_routine, args=(parsed_parameters_main, ))
             th[i].setDaemon(True)
             sleep(0.1)
+            data_log.write("Initiating Cannon %s in separate thread\n" % i)
             th[i].start()
-        com = Communicator(_ip=parsed_parameters_main["_IP"], _port=parsed_parameters_main["_Port"])
         sleep(5)
         if com.communicate() is False:
-            print "Could resist up to %s Cannons" % (NUM_CANNON - 1)
-            break
+            data_log.write("Could resist up to %s Cannons\n" % (NUM_CANNON - 1))
+            data_log.write("DDOS Test Finished\n")
+            exit(0)
+        else:
+            data_log.write("Device Resisted %s Cannons\n" % NUM_CANNON)
+    data_log.write("Test Finished Correctly")
+    exit(0)
+
+
 

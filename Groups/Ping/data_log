@@ -1,0 +1,9 @@
+Hello World This is Ping test
+Pinging 192.168.1.1 with 32 bytes of data:
+Request timed out.
+Request timed out.
+
+Ping statistics for 192.168.1.1:
+    Packets: Sent = 2, Received = 0, Lost = 2 (100% loss),
+192.168.1.1 is DOWN!
+Ping Test proccess is Finished

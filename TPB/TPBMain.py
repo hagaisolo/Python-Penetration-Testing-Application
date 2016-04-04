@@ -41,8 +41,9 @@ class TPB(ToolBasic.ToolBasic):
                 # Single test plan, run specific group
                 elif case('Single'):
                     while 1:
-                        group = raw_input("Please Enter Group Name To Execute\n")
-                        if self.check_is_group_exists(group):
+                        group = []
+                        group.append(raw_input("Please Enter Group Name To Execute\n"))
+                        if self.check_is_group_exists(group[0]):
                             break
                         print "Group Does not exists"
                     test_plan = TestPlan(group)
