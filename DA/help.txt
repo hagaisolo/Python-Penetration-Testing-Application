@@ -1,0 +1,5 @@
+Help:
+The DA collects and process output data from test
+type Display to display data
+type Process to display processed results
+type List the list all tests taken

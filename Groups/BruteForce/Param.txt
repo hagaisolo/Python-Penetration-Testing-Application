@@ -4,4 +4,5 @@
 List:
 _NetworkCloud><bool><"Are you behind a router using port forwarding (True \ False )?"><NON><NON
 _IP><int><"What is the device IP address?"><NON><NON
-_Port><int><"What is the device Port?"><nmap><NON
+_Port><int><"What is the device Port?"><NON><NON
+_Hostname><string><"ssh host name please..."><NON><NON

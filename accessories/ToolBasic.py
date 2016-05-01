@@ -1,7 +1,7 @@
 # This "virtual" class in a bunch of common method intended to used by all tools
 from os import path, listdir, getcwd
 from sys import path as sys_path
-
+import pickle
 
 class ToolBasic(object):
     def __init__(self):
@@ -63,6 +63,14 @@ class ToolBasic(object):
                 return True
         return False
 
+    @staticmethod  # consider moving up to utilities
+    def get_test_plan(self):
+        test_plan_file = open("accessories/TestPlan", 'rb')
+        temp_test_plan = pickle.load(test_plan_file)
+        if temp_test_plan.group_list == '':
+                print ("no groups were selected...\n")
+        test_plan_file.close()
+        return temp_test_plan
 
 # For debug purposes
 if __name__ == "__main__":

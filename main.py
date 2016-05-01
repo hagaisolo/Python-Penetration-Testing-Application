@@ -5,7 +5,6 @@ from accessories import ToolBasic
 from sys import path
 from TPB import TPBMain
 from TM import TMMain
-import pickle
 
 
 class Main(object):

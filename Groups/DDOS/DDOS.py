@@ -4,22 +4,26 @@
 import socket
 import pickle
 from time import sleep
-from threading import Thread
+import threading
 
 global data_log
+lock = threading.Lock()
 
 
-class Communicator(object):
+class Communicator(threading.Thread):
     def __init__(self, _ip, _port):
         self.partner_ip = _ip
         self.port = int(_port)
-        self.data = """GET http://192.168.1.30:8080/weather/\r\n
-Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n
-X-DevTools-Emulate-Network-Conditions-Client-Id: 168D3B43-9079-4DE6-B719-02D5E0CE4114\r\n
-Upgrade-Insecure-Requests: 1\r\n
-User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36\r\n
-Accept-Encoding: gzip, deflate, sdch\r\n
-Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4\r\n"""
+        self.data = "AAAA"
+        """
+        GET http://192.168.1.30:8080/weather/\r\n
+        Accept: text/html,application/xhtml+xml,application/xml;q=0.9,image/webp,*/*;q=0.8\r\n
+        X-DevTools-Emulate-Network-Conditions-Client-Id: 168D3B43-9079-4DE6-B719-02D5E0CE4114\r\n
+        Upgrade-Insecure-Requests: 1\r\n
+        User-Agent: Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/48.0.2564.116 Safari/537.36\r\n
+        Accept-Encoding: gzip, deflate, sdch\r\n
+        Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4\r\n
+        """
 
     def communicate(self):
         try:
@@ -28,26 +32,26 @@ Accept-Language: he-IL,he;q=0.8,en-US;q=0.6,en;q=0.4\r\n"""
             for index in range(10):
                 communicator_socket = socket.socket(socket.AF_INET, socket.SOCK_STREAM)
                 communicator_socket.connect((self.partner_ip, self.port ))
-                communicator_socket.send(self.data)
-                receive_data = communicator_socket.recv(512)
-                print receive_data
+                # communicator_socket.send(self.data)
+                # receive_data = communicator_socket.recv()
+                # print receive_data
                 count += 1
                 communicator_socket.close()
                 sleep(1)
             if count == index:
-                data_log.write("Successful - The device can respond while being flooded\n")
+                data_log.write("debug Successful - The device can respond while being flooded\n")
                 return True
             else:
-                data_log.write("FAIL!!! - The device cannot respond while being flooded\n")
+                data_log.write("debug FAIL!!! - The device cannot respond while being flooded\n")
                 return False
         except socket.error, e:
             str_e = "e" % e
             data_log.write(str_e)
-            data_log.write("Communication Failed, The device can respond while being flooded\n")
+            data_log.write("debug Communication Failed, The device can respond while being flooded\n")
             return False
 
 
-class SimpleDOSCannon(object):
+class SimpleDOSCannon(threading.Thread):
     def __init__(self, _ip, _port):
         self.target_ip = _ip
         self.port = int(_port)
@@ -115,25 +119,27 @@ def thread_routine(_parsed_parameters_main):
     cannon.attack()
 
 
+def tcp_packet(_port):
+    src = 0x1111
+    dst = hex(_port)
+
+
 if __name__ == "__main__":
     data_log = open("Groups//DDOS//data_log", 'w')
     data_log.write("********************** DDOS test **********************\n")
     parameters = collect_param()
     parsed_parameters_main = parse_param(parameters)
-    data_log.write("Parameters Parsed Successfully\n")
+    data_log.write("debug Parameters Parsed Successfully\n")
     com = Communicator(_ip=parsed_parameters_main["_IP"], _port=parsed_parameters_main["_Port"])
     if com.communicate() is False:
         data_log.write("Cannot initiate communication at all\n Exists test\n")
         exit(1)
 
-    for NUM_CANNON in range(1, 10):
+    for NUM_CANNON in range(1, 2):
         data_log.write("Test device resistance to tcp flood of %s Cannons\n" % NUM_CANNON)
         th = ['']*NUM_CANNON
         for i in range(NUM_CANNON):
-            th[i] = Thread(target=thread_routine, args=(parsed_parameters_main, ))
-            th[i].setDaemon(True)
-            sleep(0.1)
-            data_log.write("Initiating Cannon %s in separate thread\n" % i)
+            th[i] = threading.Thread(target=thread_routine, args=(parsed_parameters_main, ))
             th[i].start()
         sleep(5)
         if com.communicate() is False:
@@ -143,6 +149,7 @@ if __name__ == "__main__":
         else:
             data_log.write("Device Resisted %s Cannons\n" % NUM_CANNON)
     data_log.write("Test Finished Correctly")
+    data_log.close()
     exit(0)
 
 

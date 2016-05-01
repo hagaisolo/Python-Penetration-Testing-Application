@@ -8,35 +8,31 @@ TM:
     run_test: run tests according to test plan after gathered parameters
 """
 from PG import PGMain
+from DA import DA
 import pickle
 from sys import executable
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from accessories import switch_case
+from accessories import ToolBasic
 
 
-class TM(object):
+class TM(ToolBasic.ToolBasic):
     def __init__(self):
-        self.test_plan = self.get_test_plan()
-
-    def get_test_plan(self):
-        test_plan_file = open("accessories/TestPlan", 'rb')
-        temp_test_plan = pickle.load(test_plan_file)
-        if temp_test_plan.group_list == '':
-                print ("no groups were selected...\n")
-        test_plan_file.close()
-        return temp_test_plan
+        self.test_plan = self.get_test_plan(self)
 
     def menu(self):
         print ("This is the Test Manager utility")
         flag = True
         while flag:
-            switch = raw_input("1. Gather Parameters\n2. Run test\n3. exit the test manager\n")
+            switch = raw_input("1. Gather Parameters\n2. Run test\n3. View Data\n4. exit the test manager\n")
             for case in switch_case.switch(switch):
                 if case('1'):
                     self.gather_parameters()
                 elif case('2'):
                     self.run_tests()
                 elif case('3'):
+                    self.data_collect()
+                elif case('4'):
                     flag = False
                     break
                 else:
@@ -58,6 +54,10 @@ class TM(object):
         for item in self.test_plan.group_list:
             Popen([executable, 'Groups//'+item+'//' + item + '.py'], creationflags=CREATE_NEW_CONSOLE)
         pass
+
+    @staticmethod
+    def data_collect(self):
+        data_analyzer = DA.DA()
 
 # For debug purposes
 if __name__ == "__main__":
