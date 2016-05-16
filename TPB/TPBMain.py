@@ -2,18 +2,26 @@
 from accessories import switch_case
 import pickle
 from accessories import ToolBasic
+import imp
 
 
 class TestPlan(object):
     def __init__(self, some_list):
-        self.group_list = []
         self.group_list = some_list
+
+    def set_list(self, _list):
+        self.group_list = _list
+
+    def get_list(self):
+        return self.group_list
 
 
 class TPB(ToolBasic.ToolBasic):
-    def __init__(self):
+    def __init__(self, _list=[]):
         ToolBasic.ToolBasic.__init__(self)
         self.loop_flag = True
+        self.test_plan = TestPlan(_list)
+        self.test_plan_path = "accessories/TestPlan"
 
     def intro_menu(self):
         print "The TPB will Help You Build The Most Suitable Test Design"
@@ -58,45 +66,65 @@ class TPB(ToolBasic.ToolBasic):
     def full_test_plan(self):
         groups = self.list_all_groups()
         print groups
-        test_plan = TestPlan(groups)
-        test_plan_file = open("accessories/TestPlan", 'wb')
-        pickle.dump(test_plan, test_plan_file)
-        test_plan_file.close()
+        self.test_plan.set_list(groups)
+        self.dump_to_file(self.test_plan)
         self.loop_flag = False
 
     def single_test_plan(self):
-        group = []
         while True:
             group = [raw_input("Please Enter Group Name To Execute\n")]
             if self.check_is_group_exists(group[0]):
-                break
-            print "Group Does not exists"
-        test_plan = TestPlan(group)
-        test_plan_file = open("accessories/TestPlan", 'wb')
-        pickle.dump(test_plan, test_plan_file)
-        test_plan_file.close()
+                self.test_plan.set_list([group[0]])
+                if self.verify_tool_presence():
+                    self.dump_to_file(self.test_plan)
+                    break
+                else:
+                    print ("tool missing")
+            else:
+                print "Group Does not exists"
         self.loop_flag = False
 
     def custom_test_plan(self):
         groups = []
         while True:
-            groups_raw = raw_input("Please Enter Group Name To Execute\n")
+            groups_raw = raw_input("Please Enter Groups Name To Execute, name "
+                                   "separated in one space[Ping BruteForce TCP]\n")
             print groups_raw
-            groups_raw = groups_raw.replace(" ", "")
-            print groups_raw
-            groups_pre = groups_raw.split(',')
+            groups_pre = groups_raw.split(' ')
             print groups_pre
             for group in groups_pre:
                 if self.check_is_group_exists(group):
-                    groups.append(group)
-                    print "Group: ", group, " exists and added to test plan"
+                    if self.verify_tool_presence(TestPlan([group])):
+                        groups.append(group)
+                        print "Group: ", group, " exists and added to test plan"
+                    else:
+                        print "Group %s exists but tool missing" %group
                 else:
                     print "Group: ", group, "Does not exists"
+            print groups
             answer = raw_input("Are This Plan OK? (y/n)")
-            if answer is "y" or "yes":
+            if answer == "y" or answer == "yes":
                 break
-        test_plan = TestPlan(groups)
-        test_plan_file = open("accessories/TestPlan", 'wb')
-        pickle.dump(test_plan, test_plan_file)
-        test_plan_file.close()
+            else:
+                groups = []
+        self.test_plan.set_list(groups)
+        self.dump_to_file(self.test_plan)
         self.loop_flag = False
+
+    def dump_to_file(self, _input):
+        input_file = open(self.test_plan_path, 'wb')
+        pickle.dump(_input, input_file)
+        input_file.close()
+
+    def verify_tool_presence(self, _test_plan=TestPlan([])):
+        if not _test_plan.get_list():
+            tool_list = self.get_tool_demand(self.test_plan)
+        else:
+            tool_list = self.get_tool_demand(_test_plan)
+        verify = True
+        for tool in tool_list:
+            try:
+                imp.find_module(tool)
+            except ImportError:
+                verify = False
+        return verify

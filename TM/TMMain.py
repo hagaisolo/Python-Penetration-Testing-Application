@@ -27,7 +27,7 @@ class TM(ToolBasic.ToolBasic):
         flag = True
         while flag:
             switch = raw_input("1. Gather Parameters\n2. Run test\n3. View Data"
-                               "\n4. Build test plan.\n5. exit the test manager\n")
+                               "\n4. Build test plan.\n5. Print test plan\n6. exit the test manager\n")
             for case in switch_case.switch(switch):
                 if case('1'):
                     self.gather_parameters()
@@ -38,6 +38,9 @@ class TM(ToolBasic.ToolBasic):
                 elif case('4'):
                     self.build_test_plan()
                 elif case('5'):
+                    print self.get_test_plan().get_list()
+                    break
+                elif case('6'):
                     flag = False
                     break
                 else:

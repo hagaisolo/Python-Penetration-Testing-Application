@@ -2,6 +2,7 @@
 from os import path, listdir
 from sys import path as sys_path
 import pickle
+import xml.etree.ElementTree as Et
 
 
 class ToolBasic(object):
@@ -74,6 +75,19 @@ class ToolBasic(object):
     @staticmethod
     def delete_duplication(dup_list):
         return list(set(dup_list))
+
+    def get_tool_demand(self, _test_plan):
+        my_path = self.path_abs() + "Groups\\"
+        tool_list = []
+        for item in _test_plan.get_list():
+            root_path = my_path + item + "\data.xml"
+            tree = Et.parse(root_path)
+            root = tree.getroot()
+            for element in root:
+                if element.tag == "tools":
+                    for tool in element:
+                        tool_list.append(tool.tag)
+        return tool_list
 
 # For debug purposes
 if __name__ == "__main__":

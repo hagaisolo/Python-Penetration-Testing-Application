@@ -3,6 +3,7 @@ import os
 
 group_list = ["Ping"]
 if __name__ == "__main__":
+    """
     my_path = os.path.abspath("") + "\\Groups\\"
     param_list = []
     for name in group_list:
@@ -28,3 +29,14 @@ if __name__ == "__main__":
         if item[1]['tool'] == 'non':
             parameters_values.append([item[0], raw_input(item[1]['question'])])
     parameters = parameters_values
+    """
+    tool_list = []
+    my_path = os.path.abspath("") + "\\Groups\\"
+    for item in group_list:
+            root_path = my_path + item + "\data.xml"
+            tree = Et.parse(root_path)
+            root = tree.getroot()
+            for element in root:
+                if element.tag == "tools":
+                    for tool in element:
+                        tool_list.append(tool)

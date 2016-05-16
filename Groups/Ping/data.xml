@@ -13,7 +13,6 @@
 </tests>
 
 	<tools number="1">
-		<nmap>
-		</nmap>
+		<nmap/>
 	</tools>
 </data>
