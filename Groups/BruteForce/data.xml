@@ -1,0 +1,18 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<parameters number="2">
+		<ip type="int" question="What is the device IP address?"/>
+		<port type="int" question="device port?"/>
+        <network type="bool" question="Are you connected via cloud?"/>
+	</parameters>
+
+	<tests number="1">
+		<Brute_Force_SSH/>
+        <Brute_Force_SSH_Key/>
+</tests>
+
+	<tools number="1">
+		<nmap>
+		</nmap>
+	</tools>
+</data>

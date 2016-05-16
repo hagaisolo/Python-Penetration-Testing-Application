@@ -1,0 +1,19 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<parameters number="2">
+		<ip type="int" question="What is the device IP addess?">
+		</ip>
+		<number_of_pings type="int" question="How many pings to send?">
+		</number_of_pings>
+	</parameters>
+
+	<tests number="1">
+		<ping>
+		</ping>
+</tests>
+
+	<tools number="1">
+		<nmap>
+		</nmap>
+	</tools>
+</data>

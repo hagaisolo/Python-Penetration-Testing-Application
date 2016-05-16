@@ -8,11 +8,13 @@
 #       cell#0 parameter name ; cell#1 type ; cell#2 Question ; cell #3 Auto? ; cell#4 external tool
 # self.parameter structure: cell#0 parameter name ; cell#1 parameter value
 from accessories import ToolBasic
+import xml.etree.ElementTree as Et
 
 
 class PG(ToolBasic.ToolBasic):
 
     def __init__(self):
+        ToolBasic.ToolBasic.__init__(self)
         self.raw_parameters = []
         self.parsed_parameters = []
         self.parameters = []
@@ -27,49 +29,27 @@ class PG(ToolBasic.ToolBasic):
 
     def gather_param_demand(self):
         my_path = self.path_abs() + "Groups\\"
-        m = 0
-        param_list = []
+        parameter_demand_list = []
         for name in self.group_list:
-            str_temp = my_path+name+"\Param.txt"
-            try:
-                f = open(str_temp, 'r')
-                temp_line = f.readline()
-                while temp_line != "List:\n":
-                    temp_line = f.readline()
-                while True:
-                    param_list.append(f.readline())
-                    if param_list[-1] == '':
-                        param_list.pop()
-                        break
-            except ValueError, e:
-                print e
-        while param_list[-1] == '':
-            param_list.pop()
-        self.raw_parameters = self.delete_duplication(param_list)
+            data_file = my_path+name+"\data.xml"
+            tree = Et.parse(data_file)
+            root = tree.getroot()
+            for element in root:
+                if element.tag == "parameters":
+                    for parameter in element:
+                        parameter_line = [parameter.tag, parameter.attrib]
+                        parameter_demand_list.append(parameter_line)
+        self.parsed_parameters = parameter_demand_list
 
-    @staticmethod
-    def delete_duplication(dup_list):
-         return list(set(dup_list))
-
-    def parameter_parser(self):
-        line_list = []
-        for line in self.raw_parameters:
-            line = line.split('><')
-            line_list.append(line)
-        self.parsed_parameters = line_list
+    def insert_default_values(self):
+        # insert default values
+        for item in self.parsed_parameters:
+             if 'tool' not in item[1]:
+                item[1]['tool'] = 'non'
 
     def gather_question_parameter(self):
-        param_list = []
-        for i in range(len(self.parsed_parameters)):
-            if self.parsed_parameters[i][3] == "NON":
-                param_list.append((self.parsed_parameters[i][0], raw_input(self.parsed_parameters[i][2])))
-        self.parameters = param_list
-
-# For Debug purposes
-if __name__ == "__main__":
-    groups = ["DDOS"]
-    param_obj = PG()
-    param_obj.group_list = groups
-    param_obj.gather_param_demand()
-    param_obj.gather_question_parameter()
-    a=5;
+        parameters_values = []
+        for item in self.parsed_parameters:
+            if item[1]['tool'] == 'non':
+                parameters_values.append([item[0], raw_input(item[1]['question'])])
+        self.parameters = parameters_values

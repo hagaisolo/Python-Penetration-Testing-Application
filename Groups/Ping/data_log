@@ -1,9 +1,15 @@
 Hello World This is Ping test
-Pinging 192.168.1.1 with 32 bytes of data:
-Request timed out.
-Request timed out.
+Test run at: 2016-05-01 16:33:02.248000
 
-Ping statistics for 192.168.1.1:
-    Packets: Sent = 2, Received = 0, Lost = 2 (100% loss),
-192.168.1.1 is DOWN!
+Pinging 212.199.202.19 with 32 bytes of data:
+Reply from 212.199.202.19: bytes=32 time=122ms TTL=53
+Reply from 212.199.202.19: bytes=32 time=71ms TTL=53
+Reply from 212.199.202.19: bytes=32 time=73ms TTL=53
+Reply from 212.199.202.19: bytes=32 time=72ms TTL=53
+
+Ping statistics for 212.199.202.19:
+    Packets: Sent = 4, Received = 4, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 71ms, Maximum = 122ms, Average = 84ms
+212.199.202.19 is UP!
 Ping Test proccess is Finished
