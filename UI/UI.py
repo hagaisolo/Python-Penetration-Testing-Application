@@ -1,5 +1,5 @@
-# This is the Test Manager, it run the tests... it is also responsible for call the
-# suitable feature for collecting parameters and output data from the tests.
+# This is the UI (User Interference), It is responsible to communicate the core and groups to the user,
+# it can be forward developed into a GUI.
 """
 UI:
     method:
@@ -17,11 +17,12 @@ from Core.PG import PGMain
 from Core.TPB import TPBMain
 from Core.Base import ToolBasic
 
+TPB = TPBMain.TPB
+
 
 class UI(ToolBasic.ToolBasic):
     def __init__(self):
         ToolBasic.ToolBasic.__init__(self)
-        self.test_plan = self.get_test_plan()
 
     def menu(self):
         print ("This is the Test Manager utility")
@@ -49,7 +50,7 @@ class UI(ToolBasic.ToolBasic):
 
     def gather_parameters(self):
         gatherer = PGMain.PG()
-        gatherer.group_list = self.test_plan.group_list
+        gatherer.group_list = self.get_test_plan().group_list
         gatherer.gather_param_demand()
         gatherer.insert_default_values()
         gatherer.gather_question_parameter()
@@ -60,18 +61,62 @@ class UI(ToolBasic.ToolBasic):
 
     def run_tests(self):
         print "You've selected run_tests method"
-        for item in self.test_plan.group_list:
+        test_plan = self.get_test_plan()
+        for item in test_plan.group_list:
             Popen([executable, 'Groups//'+item+'//' + item + '.py'], creationflags=CREATE_NEW_CONSOLE)
         pass
 
-    def build_test_plan(self):
-        print ("You've selected build_test_plan method")
-        builder = TPBMain.TPB()
-        builder.intro_menu()
-        self.test_plan = self.get_test_plan()
+    @staticmethod
+    def build_test_plan():
+        builder = BuildTestPlan()
+        builder.menu()
 
     @staticmethod
     def data_collect():
         data_analyzer = DA.DA()
         data_analyzer.menu()
 
+
+class BuildTestPlan(object):
+    def __init__(self):
+        self.test_planner = TPB()
+        self.loop_flag = True
+
+    def menu(self):
+        print "The TPB will Help You Build The Most Suitable Test Design"
+        print "write \"Help\" for further instructions\n"
+        while self.loop_flag:
+            x = raw_input("Choose Build Type Full/Single/Custom:")
+            for case in switch_case.switch(x):
+                # Print the TPBHelp.txt document
+                if case('Help'):
+                    self.test_planner.help_text()
+                    self.loop_flag = False
+
+                # Print A list of all available groups
+                elif case('List'):
+                    self.test_planner.list_group()
+                    self.loop_flag = False
+
+                # Full test plan, run all available groups
+                elif case('Full'):
+                    self.test_planner.full_test_plan()
+                    self.loop_flag = False
+
+                # Single test plan, run specific group
+                elif case('Single'):
+                    self.test_planner.single_test_plan()
+                    self.loop_flag = False
+
+                # Create Custom test plan
+                elif case('Custom'):
+                    self.test_planner.custom_test_plan()
+                    self.loop_flag = False
+
+                # Quits the Test Plan Builder
+                elif case('Quit'):
+                    print "Exiting TPB...\n"
+                    self.loop_flag = False
+
+                else:
+                    pass

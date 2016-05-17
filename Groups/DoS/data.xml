@@ -1,0 +1,17 @@
+<?xml version="1.0" encoding="UTF-8"?>
+<data>
+	<parameters number="2">
+		<ip type="int" question="What is the device IP addess?"/>
+        <port type="int" question="Enter Port"/>
+		<packet_size type="int" question="Please specify packet size.\nDefault packet size is 64.\nPacket size can\'t be more than 128:\n"/>
+	    <random_size type="bool" question="Do you want to enable random packet creation?\nIf yes type yes or press enter.\nIf no type no:\n"/>
+    </parameters>
+
+	<tests number="1">
+		<DoS/>
+    </tests>
+
+	<tools number="0">
+		<nmap></nmap>
+	</tools>
+</data>
