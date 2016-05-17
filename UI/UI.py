@@ -1,23 +1,24 @@
 # This is the Test Manager, it run the tests... it is also responsible for call the
 # suitable feature for collecting parameters and output data from the tests.
 """
-TM:
+UI:
     method:
-    __init__ : we instantiate a TM object with a test plan
+    __init__ : we instantiate a UI object with a test plan
     gather_param: instantiate a PG object, collects parameter according to test plan
     run_test: run tests according to test plan after gathered parameters
 """
-from accessories import ToolBasic
-from PG import PGMain
-from DA import DA
-from TPB import TPBMain
 import pickle
-from sys import executable
 from subprocess import Popen, CREATE_NEW_CONSOLE
-from accessories import switch_case
+from sys import executable
+
+from Core.Base import switch_case
+from Core.DA import DA
+from Core.PG import PGMain
+from Core.TPB import TPBMain
+from Core.Base import ToolBasic
 
 
-class TM(ToolBasic.ToolBasic):
+class UI(ToolBasic.ToolBasic):
     def __init__(self):
         ToolBasic.ToolBasic.__init__(self)
         self.test_plan = self.get_test_plan()

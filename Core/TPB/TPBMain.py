@@ -1,19 +1,10 @@
 # This is the test plan build (TPB) main file it hold the TPB class and some methods
-from accessories import switch_case
-import pickle
-from accessories import ToolBasic
 import imp
+import pickle
+from Core.Base import switch_case
+from Core.Base import ToolBasic
 
-
-class TestPlan(object):
-    def __init__(self, some_list):
-        self.group_list = some_list
-
-    def set_list(self, _list):
-        self.group_list = _list
-
-    def get_list(self):
-        return self.group_list
+TestPlan = ToolBasic.TestPlan
 
 
 class TPB(ToolBasic.ToolBasic):
@@ -21,7 +12,7 @@ class TPB(ToolBasic.ToolBasic):
         ToolBasic.ToolBasic.__init__(self)
         self.loop_flag = True
         self.test_plan = TestPlan(_list)
-        self.test_plan_path = "accessories/TestPlan"
+        self.test_plan_path = "Core/Base/TestPlan"
 
     def intro_menu(self):
         print "The TPB will Help You Build The Most Suitable Test Design"
@@ -59,7 +50,7 @@ class TPB(ToolBasic.ToolBasic):
 
     def help_text(self):
         print "Help Text Method"
-        f = self.open_file("TPB/TPBHelp.txt")
+        f = self.open_file("Core/TPB/TPBHelp.txt")
         help_text = f.read()
         print help_text
 

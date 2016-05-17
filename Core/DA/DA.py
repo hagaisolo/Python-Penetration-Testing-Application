@@ -1,6 +1,6 @@
 # This is the Data Analyzer / Collector class
-from accessories import ToolBasic
-from accessories import switch_case
+from Core.Base import switch_case
+from Core.Base import ToolBasic
 
 
 class DA(ToolBasic.ToolBasic):

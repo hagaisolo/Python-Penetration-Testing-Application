@@ -3,6 +3,7 @@ from os import path, listdir
 from sys import path as sys_path
 import pickle
 import xml.etree.ElementTree as Et
+import imp
 
 
 class ToolBasic(object):
@@ -65,8 +66,11 @@ class ToolBasic(object):
 
     @staticmethod  # consider moving up to utilities
     def get_test_plan():
-        test_plan_file = open("accessories/TestPlan", 'rb')
-        temp_test_plan = pickle.load(test_plan_file)
+        test_plan_file = open("Core/Base/TestPlan", 'rb')
+        try:
+            temp_test_plan = pickle.load(test_plan_file)
+        except EOFError:
+            temp_test_plan = TestPlan([])
         if temp_test_plan.group_list == '':
                 print ("no groups were selected...\n")
         test_plan_file.close()
@@ -89,6 +93,39 @@ class ToolBasic(object):
                         tool_list.append(tool.tag)
         return tool_list
 
+    def dynamic_importer(name, class_name):
+        """
+        Dynamically imports modules / classes
+        """
+        try:
+            fp, pathname, description = imp.find_module(name)
+        except ImportError:
+            print "unable to locate module: " + name
+            return (None, None)
+
+        try:
+            example_package = imp.load_module(name, fp, pathname, description)
+        except Exception, e:
+            print e
+
+        try:
+            myclass = imp.load_module("%s.%s" % (name, class_name), fp, pathname, description)
+            print myclass
+        except Exception, e:
+            print e
+
+        return example_package, myclass
+
+
+class TestPlan(object):
+    def __init__(self, some_list):
+        self.group_list = some_list
+
+    def set_list(self, _list):
+        self.group_list = _list
+
+    def get_list(self):
+        return self.group_list
 # For debug purposes
 if __name__ == "__main__":
     dd = ToolBasic()

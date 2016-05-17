@@ -1,7 +1,35 @@
 import xml.etree.ElementTree as Et
 import os
+import imp
+import nmap
 
 group_list = ["Ping"]
+
+
+def dynamic_importer(name, class_name):
+    """
+    Dynamically imports modules / classes
+    """
+    try:
+        fp, pathname, description = imp.find_module(name)
+    except ImportError:
+        print "unable to locate module: " + name
+        return (None, None)
+
+    try:
+        example_package = imp.load_module(name, fp, pathname, description)
+    except Exception, e:
+        print e
+
+    try:
+        myclass = imp.load_module("%s.%s" % (name, class_name), fp, pathname, description)
+        print myclass
+    except Exception, e:
+        print e
+
+    return example_package, myclass
+
+
 if __name__ == "__main__":
     """
     my_path = os.path.abspath("") + "\\Groups\\"
@@ -40,3 +68,12 @@ if __name__ == "__main__":
                 if element.tag == "tools":
                     for tool in element:
                         tool_list.append(tool)
+    name = tool_list[0].tag
+
+    md, cl = dynamic_importer(name, name)
+    print md, cl
+    scanner = md.PortScanner()
+    scanner.scan()
+
+    # scanner = nmap.PortScanner()
+    # scanner.scan()

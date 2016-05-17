@@ -1,7 +1,7 @@
 # This is the TPC - Tool Presence Checker file.
 # The TPC is responsible to compare between group's tool demands and tool presence at host computer.
 # The tool extract to group demand from the Req_Tools.txt files and compare them to the
-# Presence_Tool.txt file located in accessories.
+# Presence_Tool.txt file located in Base.
 from sys import path
 
 
@@ -41,7 +41,7 @@ class TPC(object):
 
     def get_presence_list(self):
         """ This method retrieves the present tools list in a list format """
-        my_path = path[0]+"/../accessories/Tool_Presence_List.txt"
+        my_path = path[0]+"/../Base/Tool_Presence_List.txt"
         f = open(my_path, 'r')
         try:
             temp_line = f.readline()

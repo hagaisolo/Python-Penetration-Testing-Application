@@ -7,8 +7,10 @@
 # self.raw_parameter structure :
 #       cell#0 parameter name ; cell#1 type ; cell#2 Question ; cell #3 Auto? ; cell#4 external tool
 # self.parameter structure: cell#0 parameter name ; cell#1 parameter value
-from accessories import ToolBasic
 import xml.etree.ElementTree as Et
+
+from Core.Base import switch_case
+from Core.Base import ToolBasic
 
 
 class PG(ToolBasic.ToolBasic):
@@ -52,4 +54,13 @@ class PG(ToolBasic.ToolBasic):
         for item in self.parsed_parameters:
             if item[1]['tool'] == 'non':
                 parameters_values.append([item[0], raw_input(item[1]['question'])])
+            else:
+                self.gather_tool_parameter(item)
         self.parameters = parameters_values
+
+    def gather_tool_parameter(self, _module_name='sys', _class_name='path'):
+        module_name, class_name = self.dynamic_importer(_module_name, _class_name)
+
+
+
+
