@@ -2,8 +2,68 @@
 import imp
 import pickle
 from Core.Base import ToolBasic
+from Core.Base import switch_case
 
 TestPlan = ToolBasic.TestPlan
+
+
+class IoTCharacterization (object):
+    def __init__(self):
+        self.layers = [dict(), dict(), dict(), dict(), dict(), dict()]
+
+    def add_characterization(self, _layer=1, _char=('type', 'value')):
+        for case in switch_case.switch(_layer):
+            if case(1):
+                if _char[0] in self.layer1:
+                    self.layer1[_char[0]].append(_char[1])
+                else:
+                    self.layer1[_char[0]] = [_char[1]]
+            elif case(2):
+                 if _char[0] in self.layer2:
+                    self.layer2[_char[0]].append(_char[1])
+                 else:
+                    self.layer2[_char[0]] = [_char[1]]
+            elif case(3):
+                if _char[0] in self.layer3:
+                    self.layer3[_char[0]].append(_char[1])
+                else:
+                    self.layer3[_char[0]] = [_char[1]]
+            elif case(4):
+                if _char[0] in self.layer4:
+                    self.layer4[_char[0]].append(_char[1])
+                else:
+                    self.layer4[_char[0]] = [_char[1]]
+            elif case(5):
+                if _char[0] in self.layer5:
+                    self.layer5[_char[0]].append(_char[1])
+                else:
+                    self.layer5[_char[0]] = [_char[1]]
+            elif case(6):
+                if _char[0] in self.layer6:
+                    self.layer6[_char[0]].append(_char[1])
+                else:
+                    self.layer6[_char[0]] = [_char[1]]
+
+    def add_characterization2(self, _layer=1, _char=('type', 'value')):
+        if _char[0] in self.layers[_layer]:
+            self.layers[_layer][_char[0]].append(_char[1])
+        else:
+            self.layers[_layer][_char[0]] = [_char[1]]
+
+    def print_all(self):
+        for i in range (1, 6):
+            print "Layer ", i, " : ",
+            print self.layers[i]
+
+    def find_tuple(self,  _char=('type', 'value'), _layers=[1,2,3,4,5,6]):
+        for layer in _layers:
+            for item in self.layers[layer]:
+                if _char[0] in self.layers[layer]:
+                    if   self.layers[layer][_char[0]] == [_char[1]]:
+                        return True
+                    elif self.layers[layer][_char[0]] == ['all']:
+                        return True
+        return False
 
 
 class TPB(ToolBasic.ToolBasic):
@@ -15,6 +75,9 @@ class TPB(ToolBasic.ToolBasic):
         else:
             self.test_plan = TestPlan(_list)
         self.test_plan_path = "Core/Base/TestPlan"
+        self.iot = IoTCharacterization()
+        self.iot_all = IoTCharacterization()
+        self.iot_user = IoTCharacterization()
 
     def help_text(self):
         print "Help Text Method"
@@ -87,3 +150,80 @@ class TPB(ToolBasic.ToolBasic):
             except ImportError:
                 verify = False
         return verify
+
+    def smart_test_plan(self):
+        self.iot_all = self.build_characterization_list_full()
+        self.iot_all.print_all()
+        self.user_characterization()
+        self.iot_user.print_all()
+        temp_test_plan = []
+        for group in self.list_all_groups():
+            if self.test_if_group_allowed(group):
+                temp_test_plan.append(group)
+        self.test_plan.set_list(temp_test_plan)
+        self.dump_to_file(self.test_plan)
+        self.loop_flag = False
+
+    def build_characterization_list_full(self):
+        # collect all possible choices to device characterization from all groups
+        iot = IoTCharacterization()
+        for group in self.list_all_groups():
+            self.build_characterization_list_group(iot, group)
+        for layer in iot.layers:
+            for key in layer:
+                layer[key] = list(set(layer[key]))
+        return iot
+
+    def build_characterization_list_group(self, _iot, _group="Ping"):
+        # collect all choices from one group
+        root = self.get_xml_root(_group)
+        for case in root:
+            if case.tag == "testplan":
+                for layer in case:
+                    for charac in layer:
+                        _iot.add_characterization2(int(layer.attrib["layer"]), tuple((charac.attrib["type"], charac.text)))
+
+    def user_characterization(self):
+        # user characterize his device according to layer method
+        print ("Characterizing device: ")
+        print ("Layer 1 : ")
+        for i in range(1,6 ):
+            if self.iot_all.layers[i]:
+                for item in self.iot_all.layers[i]:
+                    flag = True
+                    while flag:
+                        print ("Choose one of the following for your device: "),
+                        print item
+                        choice = raw_input(self.iot_all.layers[i]).split()
+                        for ch in choice:
+                            if ch == "all":
+                                self.iot_user.add_characterization2(i, (item, ch))
+                                flag = False
+                            else:
+                                if ch in self.iot_all.layers[i][item]:
+                                    self.iot_user.add_characterization2(i, (item, ch))
+                                else:
+                                    print ("invalid choice")
+                                    flag = True
+                                    break
+                                flag = False
+
+
+    def test_if_group_allowed(self, group):
+        # test if group flag are included in the user flags specification
+        root = self.get_xml_root(group)
+        iot_group = IoTCharacterization()
+        self.build_characterization_list_group(iot_group, group)
+        # for each item in iot_group we check if it included in iot_user
+        for layer_num in range(1,6):
+            for item in iot_group.layers[layer_num]:
+                value = iot_group.layers[layer_num][item]
+                print item, value
+                # check all list value, just one need to be found
+                value_flag = False
+                for v in value:
+                    if self.iot_user.find_tuple(_char=(item,v), _layers=[layer_num]):
+                        value_flag = True
+                if not value_flag:
+                    return False
+        return True

@@ -2,7 +2,7 @@
 import socket
 import random
 import sys
-from Core.Tools import core_get_parameters
+from Core.Tools.Tools import core_get_parameters
 #end modules import
 
 __version__='Dark Edition'
@@ -17,7 +17,7 @@ print("""\n##     ##  #######  #### ##     ##    ###     ######  ##    ##
 ##     ## ##     ##  ##  ##     ## ##     ## ##    ## ##   ##
 ##     ##  #######  #### ##     ## ##     ##  ######  ##    ## \n""")
 
-parameters = core_get_parameters.core_get_parameters()
+parameters = core_get_parameters()
 
 #IP specific commands
 IP = parameters['ip']

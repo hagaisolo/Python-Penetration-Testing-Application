@@ -63,8 +63,8 @@ class UI(ToolBasic.ToolBasic):
         print "You've selected run_tests method"
         test_plan = self.get_test_plan()
         for item in test_plan.group_list:
-            Popen([executable, 'Groups//'+item+'//' + item + '.py'], creationflags=CREATE_NEW_CONSOLE)
-        pass
+            process = Popen([executable, 'Groups//'+item+'//' + item + '.py'], creationflags=CREATE_NEW_CONSOLE)
+            stdoutdate, stderrdata = process.communicate()
 
     @staticmethod
     def build_test_plan():
@@ -95,7 +95,7 @@ class BuildTestPlan(object):
 
                 # Print A list of all available groups
                 elif case('List'):
-                    self.test_planner.list_group()
+                    print self.test_planner.list_all_groups()
                     self.loop_flag = False
 
                 # Full test plan, run all available groups
@@ -113,6 +113,10 @@ class BuildTestPlan(object):
                     self.test_planner.custom_test_plan()
                     self.loop_flag = False
 
+                # Smart test plan builder
+                elif case ('Smart'):
+                    self.test_planner.smart_test_plan()
+                    self.loop_flag = False
                 # Quits the Test Plan Builder
                 elif case('Quit'):
                     print "Exiting TPB...\n"

@@ -9,6 +9,7 @@ import imp
 class ToolBasic(object):
     def __init__(self):
         self.path_project = self.path_abs()
+        self.Et = Et
 
     @staticmethod
     def open_file(filename):
@@ -18,15 +19,13 @@ class ToolBasic(object):
     @staticmethod
     def list_all_groups():
         my_path = sys_path[0]+"\Groups"
-        groups = []
-        for name in listdir(my_path):
-            if name == "parameters" or name == "__init__.py":
-                continue
-            groups.append(name)
-        return groups
+        group_list = listdir(my_path)
+        group_list.remove("parameters")
+        group_list.remove("__init__.py")
+        return group_list
 
     @staticmethod
-    def list_group():
+    def list_group_tests():
         my_path = sys_path[0]+"\Groups"
         m = 0
         for name in listdir(my_path):
@@ -115,6 +114,13 @@ class ToolBasic(object):
             print e
 
         return example_package, myclass
+
+    def get_xml_root(self, _group="Ping"):
+        my_path = self.path_abs() + "Groups\\"
+        root_path = my_path + _group + "\data.xml"
+        tree = Et.parse(root_path)
+        root = tree.getroot()
+        return root
 
 
 class TestPlan(object):

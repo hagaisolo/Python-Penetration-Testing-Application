@@ -7,9 +7,19 @@
 	    <random_size type="bool" question="Do you want to enable random packet creation?\nIf yes type yes or press enter.\nIf no type no:\n"/>
     </parameters>
 
-	<tests number="1">
-		<DoS/>
-    </tests>
+	<testplan>
+		<layer1 layer="1"/>
+		<layer2 layer="2">
+			<char type="setup">router</char>
+		</layer2>
+		<layer3 layer="3">
+			<char type="protocol">tcp</char>
+			<char type="protocol">udp</char>
+		</layer3>
+		<layer4 layer="4"/>
+		<layer5 layer="5"/>
+		<layer6 layer="6"/>
+    </testplan>
 
 	<tools number="0">
 		<nmap></nmap>

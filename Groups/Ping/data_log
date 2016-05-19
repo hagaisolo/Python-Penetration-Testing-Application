@@ -1,13 +1,2 @@
 Hello World This is Ping test
-Test run at: 2016-05-17 20:41:33.388000
-
-Pinging 192.168.1.1 with 32 bytes of data:
-Request timed out.
-Request timed out.
-Request timed out.
-Request timed out.
-
-Ping statistics for 192.168.1.1:
-    Packets: Sent = 4, Received = 0, Lost = 4 (100% loss),
-192.168.1.1 is DOWN!
-Ping Test proccess is Finished
+Test run at: 2016-05-19 19:03:42.433000

@@ -8,8 +8,6 @@
 #       cell#0 parameter name ; cell#1 type ; cell#2 Question ; cell #3 Auto? ; cell#4 external tool
 # self.parameter structure: cell#0 parameter name ; cell#1 parameter value
 import xml.etree.ElementTree as Et
-
-from Core.Base import switch_case
 from Core.Base import ToolBasic
 
 
@@ -40,14 +38,33 @@ class PG(ToolBasic.ToolBasic):
                 if element.tag == "parameters":
                     for parameter in element:
                         parameter_line = [parameter.tag, parameter.attrib]
-                        parameter_demand_list.append(parameter_line)
+                        if self.parameter_demand_list_exists(parameter_demand_list,parameter_line): # already exists
+                            pass
+                        else:
+                            parameter_demand_list.append(parameter_line)
+        print parameter_demand_list
         self.parsed_parameters = parameter_demand_list
+
+    @staticmethod
+    def parameter_demand_list_exists(_demand_list, _line):
+        for item in _demand_list:
+            if item[0] == _line[0]:
+                return True
+        return False
+
 
     def insert_default_values(self):
         # insert default values
         for item in self.parsed_parameters:
              if 'tool' not in item[1]:
                 item[1]['tool'] = 'non'
+
+    @staticmethod
+    def parse_param(param_list):
+        parsed_param = {}
+        for item in param_list:
+            parsed_param[item[0]] = item[1]
+        return parsed_param
 
     def gather_question_parameter(self):
         parameters_values = []
@@ -56,7 +73,7 @@ class PG(ToolBasic.ToolBasic):
                 parameters_values.append([item[0], raw_input(item[1]['question'])])
             else:
                 self.gather_tool_parameter(item)
-        self.parameters = parameters_values
+        self.parameters = self.parse_param(parameters_values)
 
     def gather_tool_parameter(self, _module_name='sys', _class_name='path'):
         module_name, class_name = self.dynamic_importer(_module_name, _class_name)

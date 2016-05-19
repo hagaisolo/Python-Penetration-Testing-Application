@@ -13,6 +13,14 @@ Rp4
 S'group_list'
 p6
 (lp7
-S'DoS'
+S'BruteForce'
 p8
+aS'DDOS'
+p9
+aS'DoS'
+p10
+aS'Ping'
+p11
+aS'TcpFlood'
+p12
 asb.
