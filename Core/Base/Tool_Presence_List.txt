@@ -1,7 +1,0 @@
-# This file lists all the available external tools for the application. for now to only tool i tried
-# is NMAP include it's python package. I hope further down the road i will integrate more tools
-# into new groups
-
-List:
-NMAP
-python-nmap
