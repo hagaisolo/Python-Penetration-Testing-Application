@@ -5,6 +5,10 @@ import sys
 from Core.Tools.Tools import core_get_parameters
 #end modules import
 
+f = open("Groups/DoS/data_log", "w")
+temp = sys.stdout
+sys.stdout = f
+
 __version__='Dark Edition'
 print('Moihack DoS Attack Tool', __version__)
 print('Welcome to Moihack DoS Attack Tool')
@@ -106,6 +110,7 @@ if Protocol =='TCP' or Protocol == 'tcp' or Protocol == "":
 
         else:
             print('Thank you for trying Moihack DoS attack tool!!!')
+            f.close()
             sys.exit
     attack()
 else:
@@ -153,6 +158,7 @@ else:
 
         else:
             print('Thank you for trying Moihack DoS attack tool!!!')
+            f.close()
             sys.exit
     attack()
 

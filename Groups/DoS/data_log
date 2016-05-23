@@ -1,0 +1,21 @@
+('Moihack DoS Attack Tool', 'Dark Edition')
+Welcome to Moihack DoS Attack Tool
+
+##     ##  #######  #### ##     ##    ###     ######  ##    ##
+###   ### ##     ##  ##  ##     ##   ## ##   ##    ## ##   ##
+#### #### ##     ##  ##  ##     ##  ##   ##  ##       ##  ##
+## ### ## ##     ##  ##  ######### ##     ## ##       #####
+##     ## ##     ##  ##  ##     ## ######### ##       ##  ##
+##     ## ##     ##  ##  ##     ## ##     ## ##    ## ##   ##
+##     ##  #######  #### ##     ## ##     ##  ######  ##    ## 
+
+Please specify the port you wish to attack.
+Default Port is 80.
+Some common port numbers are:
+Service Name: FTP	Telnet	HTTP	NetBIOS
+Port Number:  21 	23	80	137
+Port specified.
+Size set to max instead.
+Random Packet Creation disabled
+Select Protocol Of Internet Protocol Suite[TCP/UDP]
+Default Protocol is TCP

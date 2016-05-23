@@ -1,7 +1,8 @@
 # This is the Data Analyzer / Collector class
-from Core.Base import switch_case
+# from Core.Base import switch_case
 from Core.Base import ToolBasic
 
+switch_case = ToolBasic.switch
 
 class DA(ToolBasic.ToolBasic):
     def __init__(self):
@@ -17,8 +18,8 @@ class DA(ToolBasic.ToolBasic):
         print "\"Help\" for further instructions\n"
         while self.loop_flag:
             x = raw_input("Choose Action Help/Display/Process/List/Quit ")
-            for case in switch_case.switch(x):
-                # Print the TPBHelp.txt document
+            for case in switch_case(x):
+                # Print the help.txt document
                 if case('Help') or case('help'):
                     self.help_text()
                 # Print A list of all available groups
@@ -39,7 +40,7 @@ class DA(ToolBasic.ToolBasic):
 
     def help_text(self):
         print "Help Text Method"
-        f = self.open_file("DA/help.txt")
+        f = self.open_file("Core/DA/help.txt")
         help_text = f.read()
         print help_text
 

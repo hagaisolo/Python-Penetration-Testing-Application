@@ -11,13 +11,14 @@ import pickle
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from sys import executable
 
-from Core.Base import switch_case
+# from Core.Base import switch_case
 from Core.DA import DA
 from Core.PG import PGMain
 from Core.TPB import TPBMain
 from Core.Base import ToolBasic
 
 TPB = TPBMain.TPB
+switch_case = ToolBasic.switch
 
 
 class UI(ToolBasic.ToolBasic):
@@ -30,7 +31,7 @@ class UI(ToolBasic.ToolBasic):
         while flag:
             switch = raw_input("1. Gather Parameters\n2. Run test\n3. View Data"
                                "\n4. Build test plan.\n5. Print test plan\n6. exit the test manager\n")
-            for case in switch_case.switch(switch):
+            for case in switch_case(switch):
                 if case('1'):
                     self.gather_parameters()
                 elif case('2'):
@@ -87,8 +88,8 @@ class BuildTestPlan(object):
         print "write \"Help\" for further instructions\n"
         while self.loop_flag:
             x = raw_input("Choose Build Type Full/Single/Custom:")
-            for case in switch_case.switch(x):
-                # Print the TPBHelp.txt document
+            for case in switch_case(x):
+                # Print the help.txt document
                 if case('Help'):
                     self.test_planner.help_text()
                     self.loop_flag = False

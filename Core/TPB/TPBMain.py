@@ -2,7 +2,6 @@
 import imp
 import pickle
 from Core.Base import ToolBasic
-from Core.Base import switch_case
 
 TestPlan = ToolBasic.TestPlan
 
@@ -12,39 +11,6 @@ class IoTCharacterization (object):
         self.layers = [dict(), dict(), dict(), dict(), dict(), dict()]
 
     def add_characterization(self, _layer=1, _char=('type', 'value')):
-        for case in switch_case.switch(_layer):
-            if case(1):
-                if _char[0] in self.layer1:
-                    self.layer1[_char[0]].append(_char[1])
-                else:
-                    self.layer1[_char[0]] = [_char[1]]
-            elif case(2):
-                 if _char[0] in self.layer2:
-                    self.layer2[_char[0]].append(_char[1])
-                 else:
-                    self.layer2[_char[0]] = [_char[1]]
-            elif case(3):
-                if _char[0] in self.layer3:
-                    self.layer3[_char[0]].append(_char[1])
-                else:
-                    self.layer3[_char[0]] = [_char[1]]
-            elif case(4):
-                if _char[0] in self.layer4:
-                    self.layer4[_char[0]].append(_char[1])
-                else:
-                    self.layer4[_char[0]] = [_char[1]]
-            elif case(5):
-                if _char[0] in self.layer5:
-                    self.layer5[_char[0]].append(_char[1])
-                else:
-                    self.layer5[_char[0]] = [_char[1]]
-            elif case(6):
-                if _char[0] in self.layer6:
-                    self.layer6[_char[0]].append(_char[1])
-                else:
-                    self.layer6[_char[0]] = [_char[1]]
-
-    def add_characterization2(self, _layer=1, _char=('type', 'value')):
         if _char[0] in self.layers[_layer]:
             self.layers[_layer][_char[0]].append(_char[1])
         else:
@@ -81,7 +47,7 @@ class TPB(ToolBasic.ToolBasic):
 
     def help_text(self):
         print "Help Text Method"
-        f = self.open_file("Core/TPB/TPBHelp.txt")
+        f = self.open_file("Core/TPB/help.txt")
         help_text = f.read()
         print help_text
 
@@ -181,7 +147,7 @@ class TPB(ToolBasic.ToolBasic):
             if case.tag == "testplan":
                 for layer in case:
                     for charac in layer:
-                        _iot.add_characterization2(int(layer.attrib["layer"]), tuple((charac.attrib["type"], charac.text)))
+                        _iot.add_characterization(int(layer.attrib["layer"]), tuple((charac.attrib["type"], charac.text)))
 
     def user_characterization(self):
         # user characterize his device according to layer method
@@ -197,11 +163,11 @@ class TPB(ToolBasic.ToolBasic):
                         choice = raw_input(self.iot_all.layers[i]).split()
                         for ch in choice:
                             if ch == "all":
-                                self.iot_user.add_characterization2(i, (item, ch))
+                                self.iot_user.add_characterization(i, (item, ch))
                                 flag = False
                             else:
                                 if ch in self.iot_all.layers[i][item]:
-                                    self.iot_user.add_characterization2(i, (item, ch))
+                                    self.iot_user.add_characterization(i, (item, ch))
                                 else:
                                     print ("invalid choice")
                                     flag = True
