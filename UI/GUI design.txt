@@ -1,0 +1,37 @@
+Window 1
+first menu:
+1. Test plan
+2. Gather parameter
+3. Data Collector
+4. Run test
+5. show test plan
+6. exit
+7.Help
+
+
+		HEADER
+TestPlan	DataCollector	RunTest
+GatherPa	ShowTestPlan	Exit
+Help
+
+
+
+
+Window 2
+Test Plan:
+1. Single
+2. Full
+3. custom
+4. Smart
+5. List all groups
+6. Quit
+7. Help
+
+( Window 3 )
+Parameter Gatherer:
+maybe just gather paramter with no window
+
+Window 4
+Data Collector:
+1. list all tests
+2. Display test result for each test

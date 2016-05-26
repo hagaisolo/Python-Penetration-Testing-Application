@@ -10,8 +10,6 @@ UI:
 import pickle
 from subprocess import Popen, CREATE_NEW_CONSOLE
 from sys import executable
-
-# from Core.Base import switch_case
 from Core.DA import DA
 from Core.PG import PGMain
 from Core.TPB import TPBMain
@@ -41,7 +39,7 @@ class UI(ToolBasic.ToolBasic):
                 elif case('4'):
                     self.build_test_plan()
                 elif case('5'):
-                    print self.get_test_plan().get_list()
+                    self.print_tests_list()
                     break
                 elif case('6'):
                     flag = False
@@ -76,6 +74,9 @@ class UI(ToolBasic.ToolBasic):
     def data_collect():
         data_analyzer = DA.DA()
         data_analyzer.menu()
+
+    def print_tests_list(self):
+        print self.get_test_plan().get_list()
 
 
 class BuildTestPlan(object):
