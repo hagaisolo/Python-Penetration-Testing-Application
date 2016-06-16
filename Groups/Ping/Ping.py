@@ -1,6 +1,6 @@
 # This is a ping test, just for checking
 import os
-from Core.Tools import Tools
+from Core.features import features
 import datetime
 import sys
 
@@ -22,7 +22,7 @@ if __name__ == "__main__":
     data_log_file = open("Groups//Ping//data_log", 'w')
     data_log_file.write("Hello World This is Ping test\n")
     data_log_file.write("Test run at: %s\n" % datetime.datetime.utcnow())
-    parameters = Tools.core_get_parameters()
+    parameters = features.core_get_parameters()
     ping(ip=parameters[0][1], count=parameters[1][1], _data_log_file=data_log_file)
     data_log_file.write("Ping Test proccess is Finished")
     data_log_file.close()

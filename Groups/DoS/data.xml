@@ -3,8 +3,8 @@
 	<parameters number="2">
 		<ip type="int" question="What is the device IP addess?"/>
         <port type="int" question="Enter Port"/>
-		<packet_size type="int" question="Please specify packet size.\nDefault packet size is 64.\nPacket size can\'t be more than 128:\n"/>
-	    <random_size type="bool" question="Do you want to enable random packet creation?\nIf yes type yes or press enter.\nIf no type no:\n"/>
+		<packet_size type="int" question="Please specify packet size."/>
+	    <random_size type="bool" question="Do you want to enable random packet creation."/>
     </parameters>
 
 	<testplan>

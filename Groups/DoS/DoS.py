@@ -2,7 +2,7 @@
 import socket
 import random
 import sys
-from Core.Tools.Tools import core_get_parameters
+from Core.features.features import core_get_parameters
 #end modules import
 
 f = open("Groups/DoS/data_log", "w")

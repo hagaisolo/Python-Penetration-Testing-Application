@@ -77,7 +77,3 @@ class PG(ToolBasic.ToolBasic):
 
     def gather_tool_parameter(self, _module_name='sys', _class_name='path'):
         module_name, class_name = self.dynamic_importer(_module_name, _class_name)
-
-
-
-
