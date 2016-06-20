@@ -2,7 +2,7 @@
 <project version="4">
   <component name="ProjectModuleManager">
     <modules>
-      <module fileurl="file://$USER_HOME$/Documents/Project/PentestPlatform/.idea/Testbundle.iml" filepath="$USER_HOME$/Documents/Project/PentestPlatform/.idea/Testbundle.iml" />
+      <module fileurl="file://$PROJECT_DIR$/.idea/PentestPlatform.iml" filepath="$PROJECT_DIR$/.idea/PentestPlatform.iml" />
     </modules>
   </component>
 </project>

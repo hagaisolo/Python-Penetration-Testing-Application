@@ -58,19 +58,20 @@ class TPB(ToolBasic.ToolBasic):
         self.dump_to_file(self.test_plan)
         self.loop_flag = False
 
-    def single_test_plan(self):
-        while True:
-            group = [raw_input("Please Enter Group Name To Execute\n")]
+    def single_test_plan(self, group):
             if self.check_is_group_exists(group[0]):
                 self.test_plan.set_list([group[0]])
                 if self.verify_tool_presence():
                     self.dump_to_file(self.test_plan)
-                    break
+                    print group[0], " chosen"
+                    return True
                 else:
                     print ("tool missing")
+                    return False
             else:
                 print "Group Does not exists"
-        self.loop_flag = False
+                return False
+            self.loop_flag = False
 
     def custom_test_plan(self):
         groups = []

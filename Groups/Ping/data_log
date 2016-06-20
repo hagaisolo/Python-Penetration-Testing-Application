@@ -1,2 +1,13 @@
 Hello World This is Ping test
-Test run at: 2016-05-31 14:23:50.354000
+Test run at: 2016-06-16 13:49:06.313000
+
+Pinging 192.168.1.1 with 32 bytes of data:
+Reply from 192.168.1.1: bytes=32 time=1ms TTL=64
+Reply from 192.168.1.1: bytes=32 time=2ms TTL=64
+
+Ping statistics for 192.168.1.1:
+    Packets: Sent = 2, Received = 2, Lost = 0 (0% loss),
+Approximate round trip times in milli-seconds:
+    Minimum = 1ms, Maximum = 2ms, Average = 1ms
+192.168.1.1 is UP!
+Ping Test proccess is Finished

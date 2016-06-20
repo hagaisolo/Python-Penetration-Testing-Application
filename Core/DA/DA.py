@@ -4,6 +4,7 @@ from Core.Base import ToolBasic
 
 switch_case = ToolBasic.switch
 
+
 class DA(ToolBasic.ToolBasic):
     def __init__(self):
         ToolBasic.ToolBasic.__init__(self)
