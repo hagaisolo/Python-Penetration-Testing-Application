@@ -6,9 +6,12 @@ MQTT V3.1.1 protocol feature
 from uuid import getnode as get_mac
 import socket
 import struct
+from threading import Lock
 
-Debug = True
+safe_print = Lock
 
+
+Debug = False
 
 MQTTv31 = 3
 MQTTv311 = 4
@@ -33,11 +36,9 @@ ConnackCode["CONNACK_REFUSED_BAD_USERNAME_PASSWORD"] = 4
 ConnackCode["CONNACK_REFUSED_NOT_AUTHORIZED"] = 5
 """
 
-
 ConnackCode = ["CONNACK_ACCEPTED","CONNACK_REFUSED_PROTOCOL_VERSION","CONNACK_REFUSED_IDENTIFIER_REJECTED",
                "CONNACK_REFUSED_SERVER_UNAVAILABLE", "CONNACK_REFUSED_BAD_USERNAME_PASSWORD",
                "CONNACK_REFUSED_NOT_AUTHORIZED"]
-
 
 """
 This is stright forward version of connect message to help debug
@@ -61,72 +62,8 @@ class Message(object):
         self.payload_flag = False
 
         # Fixed Header
-        # byte 1
-        self.fixed_header["Message Type"] = 0
-        self.fixed_header["DUP Flag"] = 0
-        self.fixed_header["QoS Level"] = 0
-        self.fixed_header["Retain"] = 0
         # bytes
         self.fixed_header["Remaining Length"] = 0
-
-        # Variable Header
-        # bytes
-        self.variable_header["ProtocolName"] = "MQTT"
-        # byte
-        self.variable_header["Level"] = 4
-        # byte
-        self.variable_header["CleanSession"] = 0
-        self.variable_header["WillFlag"] = 0
-        self.variable_header["WillQoS"] = 0
-        self.variable_header["WillRetain"] = 0
-        self.variable_header["PasswordFlag"] = 0
-        self.variable_header["UserNameFlag"] = 0
-        # bytes
-        self.variable_header["KeepAlive"] = 60
-
-        self.payload["ClientID"] = get_mac()
-        self.payload["WillTopic"] = ""
-        self.payload["WillMessage"] = ""
-        self.payload["UserName"] = ""
-        self.payload["PassWord"] = ""
-
-    def get_packet(self):
-        packet = []
-        # getting Fixed Header bytes
-        buffer_fixed_header = [(self.fixed_header["Retain"]+self.fixed_header["QoS Level"]*2
-                                   + self.fixed_header["DUP Flag"]*8 + self.fixed_header["Message Type"]*16)]
-        buffer_fixed_header += self.encode_variable_length(_x=self.fixed_header["Remaining Length"])
-
-        packet += buffer_fixed_header
-        # part for variable header if it exists
-        if self.variable_header_flag:
-            buffer_variable_header = self.encode_string_to_bytes(self.variable_header["ProtocolName"])
-            buffer_variable_header += [(self.variable_header["Level"])]
-            byte8 = (self.variable_header["CleanSession"]*2 + self.variable_header["WillFlag"]*4 +
-                        self.variable_header["WillQoS"]*8 + self.variable_header["WillRetain"]*32 +
-                        self.variable_header["PasswordFlag"]*64 + self.variable_header["UserNameFlag"]*128)
-            buffer_variable_header += [(byte8)]
-            keep_alive_msb = (self.variable_header["KeepAlive"] >> 8)
-            keep_alive_lsb = (self.variable_header["KeepAlive"] % 256)
-            buffer_variable_header += [keep_alive_msb]
-            buffer_variable_header += [keep_alive_lsb]
-
-            packet += buffer_variable_header
-
-        if self.payload_flag:
-            buffer_payload = self.encode_string_to_bytes(self.payload["ClientID"])
-            if self.variable_header["WillFlag"] == 1:
-                buffer_payload += (self.encode_string_to_bytes(self.payload["WillTopic"]))
-                buffer_payload += (self.encode_string_to_bytes(self.payload["WillMessage"]))
-            if self.variable_header["UserNameFlag"] == 1:
-                buffer_payload += (self.encode_string_to_bytes(self.payload["UserName"]))
-            if self.variable_header["PasswordFlag"] == 1:
-                buffer_payload += (self.encode_string_to_bytes(self.payload["PassWord"]))
-
-            # packet.extend(struct.pack("!H", len(buffer_payload)))
-            packet += buffer_payload
-
-        return bytearray(packet)
 
     @staticmethod
     def encode_string_to_bytes(_str):
@@ -167,10 +104,15 @@ class Message(object):
 class ConnectMessage(Message):
     def __init__(self, _protocol, _id):
         Message.__init__(self)
-        self.fixed_header["Message Type"] = 1
         self.variable_header_flag = True
         self.payload_flag = True
 
+        # byte 1
+        self.fixed_header["Message Type"] = 1
+        self.fixed_header["DUP Flag"] = 0
+        self.fixed_header["QoS Level"] = 0
+        self.fixed_header["Retain"] = 0
+        # byte 2
         self.fixed_header["Remaining Length"] = 0xE
         # Variable Header part
         # bytes
@@ -199,6 +141,44 @@ class ConnectMessage(Message):
         # bytes
         self.payload["PassWord"] = u"pass"
 
+    def get_packet(self):
+            packet = []
+            # getting Fixed Header bytes
+            buffer_fixed_header = [(self.fixed_header["Retain"]+self.fixed_header["QoS Level"]*2
+                                       + self.fixed_header["DUP Flag"]*8 + self.fixed_header["Message Type"]*16)]
+            buffer_fixed_header += self.encode_variable_length(_x=self.fixed_header["Remaining Length"])
+
+            packet += buffer_fixed_header
+            # part for variable header if it exists
+            if self.variable_header_flag:
+                buffer_variable_header = self.encode_string_to_bytes(self.variable_header["ProtocolName"])
+                buffer_variable_header += [(self.variable_header["Level"])]
+                byte8 = (self.variable_header["CleanSession"]*2 + self.variable_header["WillFlag"]*4 +
+                            self.variable_header["WillQoS"]*8 + self.variable_header["WillRetain"]*32 +
+                            self.variable_header["PasswordFlag"]*64 + self.variable_header["UserNameFlag"]*128)
+                buffer_variable_header += [(byte8)]
+                keep_alive_msb = (self.variable_header["KeepAlive"] >> 8)
+                keep_alive_lsb = (self.variable_header["KeepAlive"] % 256)
+                buffer_variable_header += [keep_alive_msb]
+                buffer_variable_header += [keep_alive_lsb]
+
+                packet += buffer_variable_header
+
+            if self.payload_flag:
+                buffer_payload = self.encode_string_to_bytes(self.payload["ClientID"])
+                if self.variable_header["WillFlag"] == 1:
+                    buffer_payload += (self.encode_string_to_bytes(self.payload["WillTopic"]))
+                    buffer_payload += (self.encode_string_to_bytes(self.payload["WillMessage"]))
+                if self.variable_header["UserNameFlag"] == 1:
+                    buffer_payload += (self.encode_string_to_bytes(self.payload["UserName"]))
+                if self.variable_header["PasswordFlag"] == 1:
+                    buffer_payload += (self.encode_string_to_bytes(self.payload["PassWord"]))
+
+                # packet.extend(struct.pack("!H", len(buffer_payload)))
+                packet += buffer_payload
+
+            return bytearray(packet)
+
 
 class DisconnectMessage(Message):
     def __init__(self):
@@ -207,6 +187,131 @@ class DisconnectMessage(Message):
         self.variable_header_flag = False
         self.payload_flag = False
         self.fixed_header["Remaining Length"] = 0x00
+
+    def get_packet(self):
+        packet = []
+        packet += [self.fixed_header["Message Type"]*16]
+        packet += [self.fixed_header["Remaining Length"]]
+        return bytearray(packet)
+
+
+class PublishMessage(Message):
+    def __init__(self):
+        Message.__init__(self)
+        self.variable_header_flag = True
+        self.payload_flag = True
+        # Fixed Header
+        # byte 1
+        self.fixed_header["Retain"] = 0
+        self.fixed_header["DUP Flag"] = 0
+        self.fixed_header["Message Type"] = 3
+        self.fixed_header["QoS Level"] = 1
+
+        self.variable_header["PacketID"] = [0,0]
+        self.variable_header["TopicName"] = "a/b"
+        self.payload["AppData"] = "a"
+
+    def get_packet(self):
+        packet = []
+        # getting Fixed Header bytes
+        buffer_fixed_header = [(self.fixed_header["Retain"]+self.fixed_header["QoS Level"]*2
+                                   + self.fixed_header["DUP Flag"]*8 + self.fixed_header["Message Type"]*16)]
+        buffer_fixed_header += self.encode_variable_length(_x=self.fixed_header["Remaining Length"])
+        packet += buffer_fixed_header
+        # part for variable header if it exists
+        if self.variable_header_flag:
+            buffer_variable_header = self.encode_string_to_bytes(self.variable_header["TopicName"])
+            buffer_variable_header += self.variable_header["PacketID"]
+
+            packet += buffer_variable_header
+
+        if self.payload_flag:
+            buffer_payload = self.encode_string_to_bytes(self.payload["AppData"])
+            packet += buffer_payload
+
+        print packet
+        packet[1] = (len(packet)-2)
+        return bytearray(packet)
+
+
+class PubreckMessage(Message, ):
+    def __init__(self, _packet_id=[0,0]):
+        Message.__init__(self)
+        self.variable_header_flag = True
+        self.payload_flag = False
+        self.fixed_header["Message Type"] = 5
+        self.fixed_header["Remaining Length"] = 2
+
+        self.variable_header["PacketID"] = _packet_id
+
+    def get_message(self):
+        message = []
+        message += [self.fixed_header["Message Type"]*16]
+        message += [self.fixed_header["Remaining Length"]]
+        message += self.variable_header["PacketID"]
+        return message
+
+
+class PubrelkMessage(Message, ):
+    def __init__(self, _packet_id=[0,0]):
+        Message.__init__(self)
+        self.variable_header_flag = True
+        self.payload_flag = False
+        self.fixed_header["Message Type"] = 6
+        self.fixed_header["Reserved"] = 2
+        self.fixed_header["Remaining Length"] = 2
+
+        self.variable_header["PacketID"] = _packet_id
+
+    def get_message(self):
+        message = []
+        message += [self.fixed_header["Message Type"]*16 + self.fixed_header["Reserved"]]
+        message += [self.fixed_header["Remaining Length"]]
+        message += self.variable_header["PacketID"]
+        return message
+
+    def get_packet(self):
+        return bytearray(self.get_message())
+
+
+class PubcompMessage(Message, ):
+    def __init__(self, _packet_id=[0,0]):
+        Message.__init__(self)
+        self.variable_header_flag = True
+        self.payload_flag = False
+        self.fixed_header["Message Type"] = 7
+        self.fixed_header["Reserved"] = 0
+        self.fixed_header["Remaining Length"] = 2
+
+        self.variable_header["PacketID"] = _packet_id
+
+    def get_message(self):
+        message = []
+        message += [self.fixed_header["Message Type"]*16 + self.fixed_header["Reserved"]]
+        message += [self.fixed_header["Remaining Length"]]
+        message += self.variable_header["PacketID"]
+        return message
+
+    def get_packet(self):
+        return bytearray(self.get_message())
+
+
+class PubackMessage(Message, ):
+    def __init__(self, _packet_id=[0,0]):
+        Message.__init__(self)
+        self.variable_header_flag = True
+        self.payload_flag = False
+        self.fixed_header["Message Type"] = 4
+        self.fixed_header["Remaining Length"] = 2
+
+        self.variable_header["PacketID"] = _packet_id
+
+    def get_message(self):
+        message = []
+        message += [self.fixed_header["Message Type"]*16]
+        message += [self.fixed_header["Remaining Length"]]
+        message += self.variable_header["PacketID"]
+        return message
 
 
 class Client(object):
@@ -265,7 +370,6 @@ class Client(object):
             print disconnect_message
             print "Disconnected..."
 
-
     def subscribe(self):
         """
         Waits for completion of the Subscribe or UnSubscribe method.
@@ -280,9 +384,73 @@ class Client(object):
         """
         pass
 
-    def publish(self):
+    def publish(self, _message):
         """
         Returns immediately to the application thread after passing the request to the MQTT client.
         :return:
         """
-        pass
+        byte_message = (_message.get_packet())
+        self.sock.sendall(byte_message)
+        if Debug:
+            print "Sent Message"
+        if _message.fixed_header["QoS Level"] == 1:
+            received_message = self.get_message()
+            expected_message = PubackMessage().get_message()
+            if Debug:
+                print received_message
+                print expected_message
+        if _message.fixed_header["QoS Level"] == 2:
+            """
+            QoS Level 2 protocol
+            sent publish, receive pubrek, send pubrel receive pubcomp
+            """
+            received_message = self.get_message()
+            expected_message = PubreckMessage().get_message()
+            if Debug:
+                print received_message
+                print expected_message
+            if received_message == expected_message:
+                pubrel_message = PubrelkMessage(_packet_id= [received_message[2], received_message[3]])
+                if Debug:
+                    print pubrel_message.get_message()
+                byte_message = pubrel_message.get_packet()
+                self.sock.sendall(byte_message)
+
+                received_message = self.get_message()
+                expected_message = PubcompMessage().get_message()
+
+                if received_message == expected_message:
+                    print "QoS level 2 achieved successfull"
+
+    def get_message(self):
+        chunks = []
+        chunk = ''
+        # recieving first byte
+        while chunk == '':
+            chunk = (self.sock.recv(1))
+        tmp = struct.unpack('B', chunk)[0]
+        chunks.append(tmp)
+        # second byte to find remaining length
+        chunk = (self.sock.recv(1))
+        tmp = struct.unpack('B', chunk)[0]
+        print tmp
+        chunks.append(tmp)
+        for i in range(tmp):
+            chunk = (self.sock.recv(1))
+            chunks.append(struct.unpack('B', chunk)[0])
+        print chunks
+        return chunks
+
+    def listen(self):
+        for res in socket.getaddrinfo(None, 1883, socket.AF_UNSPEC,
+                              socket.SOCK_STREAM, 0, socket.AI_PASSIVE):
+            af, socktype, proto, canonname, add = res
+            self.listen_sock = socket.socket(socket.AF_INET,socket.SOCK_STREAM)
+
+            try:
+                self.listen_sock.bind(("192.168.1.14", 1883))
+                self.listen_sock.listen(1)
+            except socket.error as msg:
+                self.listen_sock.close()
+        conn, addr = self.listen_sock.accept()
+        print 'Connected by', addr
