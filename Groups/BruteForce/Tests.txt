@@ -1,6 +1,0 @@
-# List of all tests contained in the group
-# The "List:" header in essential, the application looks for it as a string
-
-List:
-Brute_Force_SSH
-Brute_Force_SSH_Key

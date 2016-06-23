@@ -1,6 +1,0 @@
-# Req_tools.txt
-# This file lists the required tools for this group to run
-
-List:
-NMAP
-python-nmap

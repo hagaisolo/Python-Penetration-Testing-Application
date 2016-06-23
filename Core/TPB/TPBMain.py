@@ -8,7 +8,7 @@ TestPlan = ToolBasic.TestPlan
 
 class IoTCharacterization (object):
     def __init__(self):
-        self.layers = [dict(), dict(), dict(), dict(), dict(), dict()]
+        self.layers = [dict(), dict(), dict(), dict(), dict()]
 
     def add_characterization(self, _layer=1, _char=('type', 'value')):
         if _char[0] in self.layers[_layer]:
@@ -17,15 +17,15 @@ class IoTCharacterization (object):
             self.layers[_layer][_char[0]] = [_char[1]]
 
     def print_all(self):
-        for i in range (1, 6):
+        for i in range (1, 5):
             print "Layer ", i, " : ",
             print self.layers[i]
 
-    def find_tuple(self,  _char=('type', 'value'), _layers=[1,2,3,4,5,6]):
+    def find_tuple(self,  _char=('type', 'value'), _layers=(1, 2, 3, 4, 5)):
         for layer in _layers:
             for item in self.layers[layer]:
                 if _char[0] in self.layers[layer]:
-                    if   self.layers[layer][_char[0]] == [_char[1]]:
+                    if self.layers[layer][_char[0]] == [_char[1]]:
                         return True
                     elif self.layers[layer][_char[0]] == ['all']:
                         return True
@@ -59,46 +59,30 @@ class TPB(ToolBasic.ToolBasic):
         self.loop_flag = False
 
     def single_test_plan(self, group):
-            if self.check_is_group_exists(group[0]):
-                self.test_plan.set_list([group[0]])
-                if self.verify_tool_presence():
-                    self.dump_to_file(self.test_plan)
-                    print group[0], " chosen"
-                    return True
-                else:
-                    print ("tool missing")
-                    return False
+        if self.check_is_group_exists(group[0]):
+            self.test_plan.set_list([group[0]])
+            if self.verify_tool_presence():
+                self.dump_to_file(self.test_plan)
+                return True
             else:
-                print "Group Does not exists"
-                return False
-            self.loop_flag = False
+                raise Exception("Tool missing")
+        else:
+            raise Exception("Group does not exists")
 
-    def custom_test_plan(self):
+    def custom_test_plan(self, groups_raw):
         groups = []
-        while True:
-            groups_raw = raw_input("Please Enter Groups Name To Execute, name "
-                                   "separated in one space[Ping BruteForce TCP]\n")
-            print groups_raw
-            groups_pre = groups_raw.split(' ')
-            print groups_pre
-            for group in groups_pre:
-                if self.check_is_group_exists(group):
-                    if self.verify_tool_presence(TestPlan([group])):
-                        groups.append(group)
-                        print "Group: ", group, " exists and added to test plan"
-                    else:
-                        print "Group %s exists but tool missing" % group
+        groups_pre = groups_raw.split(' ')
+        for group in groups_pre:
+            if self.check_is_group_exists(group):
+                if self.verify_tool_presence(TestPlan([group])):
+                    groups.append(group)
                 else:
-                    print "Group: ", group, "Does not exists"
-            print groups
-            answer = raw_input("Are This Plan OK? (y/n)")
-            if answer == "y" or answer == "yes":
-                break
+                    raise Exception("Tool missing for group: " + group)
             else:
-                groups = []
+                raise Exception("Group: "+ group+ " Does not exists")
         self.test_plan.set_list(groups)
         self.dump_to_file(self.test_plan)
-        self.loop_flag = False
+        return True
 
     def dump_to_file(self, _input):
         input_file = open(self.test_plan_path, 'wb')
@@ -154,7 +138,7 @@ class TPB(ToolBasic.ToolBasic):
         # user characterize his device according to layer method
         print ("Characterizing device: ")
         print ("Layer 1 : ")
-        for i in range(1,6 ):
+        for i in range(1, 5):
             if self.iot_all.layers[i]:
                 for item in self.iot_all.layers[i]:
                     flag = True
@@ -175,14 +159,13 @@ class TPB(ToolBasic.ToolBasic):
                                     break
                                 flag = False
 
-
     def test_if_group_allowed(self, group):
         # test if group flag are included in the user flags specification
         root = self.get_xml_root(group)
         iot_group = IoTCharacterization()
         self.build_characterization_list_group(iot_group, group)
         # for each item in iot_group we check if it included in iot_user
-        for layer_num in range(1,6):
+        for layer_num in range(1, 5):
             for item in iot_group.layers[layer_num]:
                 value = iot_group.layers[layer_num][item]
                 print item, value

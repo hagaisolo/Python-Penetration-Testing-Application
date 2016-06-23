@@ -1,0 +1,94 @@
+BruteForceGroup
+Test run on: 2016-06-23 13:26:17.219000
+Parsed Successfully
+Testing if root login is enable:
+###############Succeed Login############# - password is:    ,  user name is:root
+Failed to Login - password is not  for user name ==> cavesson
+Authentication failed.
+Failed to Login - password is not  for user name ==> caves
+Authentication failed.
+Failed to Login - password is not  for user name ==> cavetto
+Authentication failed.
+###############Succeed Login############# - password is:    ,  user name is:root
+Failed to Login - password is not  for user name ==> cavicorn
+Authentication failed.
+Failed to Login - password is not  for user name ==> cavie
+Authentication failed.
+Failed to Login - password is not  for user name ==> caviar
+Authentication failed.
+Penetration succeeded, user name is: root
+Tried 7 user names with empty password
+ Trying user names with passwords
+Failed to Login - password is not casto for user name ==> cavie
+Authentication failed.
+Failed to Login - password is not casto for user name ==> cavicorn
+Authentication failed.
+Failed to Login - password is not casto for user name ==> root
+Authentication failed.
+Failed to Login - password is not casto for user name ==> caviar
+Authentication failed.
+Failed to Login - password is not casto for user name ==> cavetto
+Authentication failed.
+Failed to Login - password is not casto for user name ==> caves
+Authentication failed.
+Failed to Login - password is not casto for user name ==> cavesson
+Authentication failed.
+Failed to Login - password is not castoff for user name ==> caves
+Authentication failed.
+Failed to Login - password is not castoff for user name ==> cavetto
+Authentication failed.
+Failed to Login - password is not castoff for user name ==> cavesson
+Authentication failed.
+Failed to Login - password is not castoff for user name ==> caviar
+Authentication failed.
+Failed to Login - password is not castoff for user name ==> cavicorn
+Authentication failed.
+Failed to Login - password is not castoff for user name ==> root
+Authentication failed.
+Failed to Login - password is not castoff for user name ==> cavie
+Authentication failed.
+Failed to Login - password is not caston for user name ==> caves
+Authentication failed.
+Failed to Login - password is not caston for user name ==> cavie
+Authentication failed.
+Failed to Login - password is not caston for user name ==> root
+Authentication failed.
+Failed to Login - password is not caston for user name ==> cavicorn
+Authentication failed.
+Failed to Login - password is not caston for user name ==> cavesson
+Authentication failed.
+Failed to Login - password is not caston for user name ==> cavetto
+Authentication failed.
+Failed to Login - password is not caston for user name ==> caviar
+Authentication failed.
+Failed to Login - password is not castor for user name ==> caves
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavetto
+Authentication failed.
+Failed to Login - password is not castor for user name ==> caves
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavie
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavesson
+Authentication failed.
+Failed to Login - password is not castor for user name ==> root
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavicorn
+Authentication failed.
+Failed to Login - password is not castor for user name ==> caviar
+Authentication failed.
+Failed to Login - password is not castor for user name ==> caviar
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavicorn
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavesson
+Authentication failed.
+Failed to Login - password is not castor for user name ==> root
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavie
+Authentication failed.
+Failed to Login - password is not castor for user name ==> cavetto
+Authentication failed.
+Finish user with password testing
+Test end at 2016-06-23 13:27:00.159000
+Tested 7 user names with 5 passwords each

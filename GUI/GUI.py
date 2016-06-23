@@ -1,9 +1,10 @@
 from Tkinter import *
+import tkMessageBox
 from PIL import ImageTk, Image
 import UI
 from Core.DA import DA
 
-data_anylzer = DA.DA()
+data_analyzer = DA.DA()
 ui = UI.UI()
 tpb = UI.BuildTestPlan()
 
@@ -14,7 +15,7 @@ class DAWindow(object):
 
     def run(self):
         self.root = Toplevel()
-        self.root.geometry('600x100')
+        self.root.geometry('600x80')
         self.root.wm_title("DA")
         background_image = jpg_image("GUI/pic/cyber_tpb.jpg")
         background_label=Label(self.root, image=background_image, width=240, height=300)
@@ -22,15 +23,17 @@ class DAWindow(object):
 
         f1 = Frame(self.root, height=32, width=240)
         f1.pack_propagate(0)
-        button1 = Button(f1, text="Display", command=data_anylzer.display)
+        button1 = Button(f1, text="Display", command=data_analyzer.display)
         button1.pack(fill=BOTH, expand=1)
         f1.grid(row=1, column=0)
 
+        """
         f2 = Frame(self.root, height=32, width=240)
         f2.pack_propagate(0)
         button2 = Button(f2, text="Analyze", command=tpb.test_planner.full_test_plan)
         button2.pack(fill=BOTH, expand=1)
         f2.grid(row=2)
+        """
 
         f3 = Frame(self.root, height=32, width=240)
         f3.pack_propagate(0)
@@ -67,19 +70,19 @@ class TPBWindow(object):
 
         f3 = Frame(self.root, height=32, width=240)
         f3.pack_propagate(0)
-        button3 = Button(f3, text="Custom Test Plan", command=tpb.test_planner.custom_test_plan)
+        button3 = Button(f3, text="Custom Test Plan", command=self.custom)
         button3.pack(fill=BOTH, expand=1)
         f3.grid(row=3)
 
         f4 = Frame(self.root, height=32, width=240)
         f4.pack_propagate(0)
-        button4 = Button(f4, text="Smart Test Plan", command=tpb.test_planner.smart_test_plan)
+        button4 = Button(f4, text="Smart Test Plan", command=self.smart)
         button4.pack(fill=BOTH, expand=1)
         f4.grid(row=4)
 
         f5 = Frame(self.root, height=32, width=240)
         f5.pack_propagate(0)
-        button5 = Button(f5, text="List all groups", command=tpb.test_planner.list_all_groups)
+        button5 = Button(f5, text="List all groups", command=self.list_all_groups)
         button5.pack(fill=BOTH, expand=1)
         f5.grid(row=5)
 
@@ -100,8 +103,11 @@ class TPBWindow(object):
     def single(self):
         def callBack():
             group = [e.get()]
-            if tpb.test_planner.single_test_plan(group):
-                newroot.destroy()
+            try:
+                if tpb.test_planner.single_test_plan(group):
+                    newroot.destroy()
+            except Exception as msg:
+                tkMessageBox.showinfo(msg.message,msg.message)
         newroot = Toplevel()
         newroot.geometry('400x40')
         newroot.wm_title("Single Test")
@@ -114,6 +120,34 @@ class TPBWindow(object):
         button7.pack(fill=BOTH, expand=1)
         f7.pack(side=TOP)
         e.insert(0, "Group Name")
+
+    def custom(self):
+        def callBack():
+            groups = e.get()
+            try:
+                if tpb.test_planner.custom_test_plan(groups):
+                    newroot.destroy()
+            except Exception as msg:
+                tkMessageBox.showinfo(msg.message,msg.message)
+        newroot = Toplevel()
+        newroot.geometry('400x40')
+        newroot.wm_title("Custom Test")
+        e = Entry(newroot)
+        e.pack(side=TOP)
+
+        f7 = Frame(newroot, height=32, width=240)
+        f7.pack_propagate(0)
+        button7 = Button(f7, text="Press", command=callBack)
+        button7.pack(fill=BOTH, expand=1)
+        f7.pack(side=TOP)
+        e.insert(0, "Group Name")
+
+    @staticmethod
+    def list_all_groups():
+        tkMessageBox.showinfo("",tpb.test_planner.list_all_groups())
+
+    def smart(self):
+        tpb.test_planner.smart_test_plan()
 
 da = DAWindow()
 te = TPBWindow()

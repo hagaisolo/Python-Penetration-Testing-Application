@@ -1,5 +1,0 @@
-# List of all tests contained in the group
-
-List:
-Single_Machine_DDOS
-Multi_Machine_DDOS
