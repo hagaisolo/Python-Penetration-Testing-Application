@@ -94,13 +94,14 @@ class TPBWindow(object):
 
         f7 = Frame(self.root, height=32, width=240)
         f7.pack_propagate(0)
-        button7 = Button(f7, text="Help", command=None)
+        button7 = Button(f7, text="Help", command=self.help)
         button7.pack(fill=BOTH, expand=1)
         f7.grid(row=7)
 
         self.root.mainloop()
 
-    def single(self):
+    @staticmethod
+    def single():
         def callBack():
             group = [e.get()]
             try:
@@ -121,7 +122,8 @@ class TPBWindow(object):
         f7.pack(side=TOP)
         e.insert(0, "Group Name")
 
-    def custom(self):
+    @staticmethod
+    def custom():
         def callBack():
             groups = e.get()
             try:
@@ -131,23 +133,148 @@ class TPBWindow(object):
                 tkMessageBox.showinfo(msg.message,msg.message)
         newroot = Toplevel()
         newroot.geometry('400x40')
-        newroot.wm_title("Custom Test")
-        e = Entry(newroot)
+        newroot.wm_title("Custom Test Plan")
+        e = Entry(newroot, width=60)
         e.pack(side=TOP)
 
-        f7 = Frame(newroot, height=32, width=240)
+        f7 = Frame(newroot, height=32, width=400)
         f7.pack_propagate(0)
         button7 = Button(f7, text="Press", command=callBack)
         button7.pack(fill=BOTH, expand=1)
         f7.pack(side=TOP)
-        e.insert(0, "Group Name")
+        e.insert(0, "Enter Group\s name\s seperated by space [PingA PingB ...]")
 
     @staticmethod
     def list_all_groups():
-        tkMessageBox.showinfo("",tpb.test_planner.list_all_groups())
+        # tkMessageBox.showinfo("",tpb.test_planner.list_all_groups())
+        help_text = '\n'.join(tpb.test_planner.list_all_groups())
+        new_root = Toplevel()
+        new_root.geometry("500x400")
+        T = Text(new_root, height=20, width=60)
+        T.pack()
+        T.insert(END,help_text )
 
-    def smart(self):
-        tpb.test_planner.smart_test_plan()
+    @staticmethod
+    def smart():
+        scrollbar = ['']*5
+        listboxs  = ['']*5
+        char_button = ['']*5
+        select_buttons = ['']*5
+
+        def run_smart_test():
+            tpb.test_planner.smart_test_plan()
+            new_root.destroy()
+
+        def select(_layer, _charact, _option):
+            tpb.test_planner.iot_user.add_characterization(_layer, (_charact, _option))
+
+        def choose(_layer, _charact, _row):
+            scrollbar[_layer-1] = Scrollbar(new_root)
+            scrollbar[_layer-1].grid(row=_row, column=5)
+            listboxs[_layer-1] = Listbox(new_root, yscrollcommand=scrollbar[_layer-1], height=3)
+            print _charact
+            for option in tpb.test_planner.iot_all.layers[_layer-1][_charact]:
+                listboxs[_layer-1].insert(END, option)
+            listboxs[_layer-1].grid(row=_row, column=4)
+            scrollbar[_layer-1].config(command=listboxs[_layer-1].yview)
+
+            select_buttons[_layer-1] = Button(new_root, text="Select", command= lambda: select(_layer=_layer,
+                            _charact = _charact,
+                            _option=listboxs[_layer-1].get(listboxs[_layer-1].curselection()[0])))
+            select_buttons[_layer-1].grid(row=_row, column=6)
+
+
+
+        # tpb.test_planner.smart_test_plan()
+        new_root = Toplevel()
+        new_root.geometry("800x400")
+
+        # we form a 6 X 2 grid 5 rows for each layer and scroll bar to choose and 1 row for help
+
+        # row 1
+        Label(new_root, text="Layer_1_-_Device_______________________________:").grid(row=0, column=0)
+        scrollbar_layer1 = Scrollbar(new_root)
+        scrollbar_layer1.grid(row=0, column=2)
+        listbox_layer1 = Listbox(new_root, yscrollcommand=scrollbar_layer1, height=3)
+        for it in tpb.test_planner.iot_all.layers[0].iterkeys():
+            listbox_layer1.insert(END, it)
+        listbox_layer1.grid(row=0, column=1)
+        scrollbar_layer1.config(command=listbox_layer1.yview)
+
+        char_button[0] = Button(new_root, text="Choose", command= lambda: choose(_layer=1,
+                            _charact=listbox_layer1.get(listbox_layer1.curselection()[0]) , _row=0))
+        char_button[0].grid(row=0, column=3)
+
+        # row 2
+        Label(new_root, text="Layer_2_-_Setup________________________________:").grid(row=1, column=0)
+        scrollbar_layer2 = Scrollbar(new_root)
+        scrollbar_layer2.grid(row=1, column=2)
+        listbox_layer2 = Listbox(new_root, yscrollcommand=scrollbar_layer2, height=3)
+        for it in (tpb.test_planner.iot_all.layers[1].iterkeys()):
+            listbox_layer2.insert(END, it)
+        listbox_layer2.grid(row=1, column=1)
+        scrollbar_layer2.config(command=listbox_layer2.yview)
+
+        char_button[1] = Button(new_root, text="Choose", command= lambda: choose(_layer=2,
+                            _charact=listbox_layer2.get(listbox_layer2.curselection()[0]) , _row=1))
+        char_button[1].grid(row=1, column=3)
+
+        # row 3
+        Label(new_root, text="Layer 3 - Low Level Communication Protocols :").grid(row=2, column=0)
+        scrollbar_layer3 = Scrollbar(new_root)
+        scrollbar_layer3.grid(row=2, column=2)
+        listbox_layer3 = Listbox(new_root, yscrollcommand=scrollbar_layer3, height=3)
+        for it in tpb.test_planner.iot_all.layers[2].iterkeys():
+            listbox_layer3.insert(END, it)
+        listbox_layer3.grid(row=2, column=1)
+        scrollbar_layer3.config(command=listbox_layer3.yview)
+
+        char_button[2] = Button(new_root, text="Choose", command= lambda: choose(_layer=3,
+                            _charact=listbox_layer3.get(listbox_layer3.curselection()[0]) , _row=2))
+        char_button[2].grid(row=2, column=3)
+
+        # row 4
+        Label(new_root, text="Layer 4 - High level Communication Protocols:").grid(row=3, column=0)
+        scrollbar_layer4 = Scrollbar(new_root)
+        scrollbar_layer4.grid(row=3, column=2)
+        listbox_layer4 = Listbox(new_root, yscrollcommand=scrollbar_layer4, height=3)
+        for it in tpb.test_planner.iot_all.layers[3].iterkeys():
+            listbox_layer4.insert(END, it)
+        listbox_layer4.grid(row=3, column=1)
+        scrollbar_layer4.config(command=listbox_layer4.yview)
+
+        char_button[3] = Button(new_root, text="Choose", command= lambda: choose(_layer=4,
+                            _charact=listbox_layer4.get(listbox_layer4.curselection()[0]) , _row=3))
+        char_button[3].grid(row=3, column=3)
+
+        # row 5
+        Label(new_root, text="Layer 5 - Representation and Encryption     :").grid(row=4, column=0)
+        scrollbar_layer5 = Scrollbar(new_root)
+        scrollbar_layer5.grid(row=4, column=2)
+        listbox_layer5 = Listbox(new_root, yscrollcommand=scrollbar_layer5, height=3)
+        for it in tpb.test_planner.iot_all.layers[4].iterkeys():
+            listbox_layer5.insert(END, it)
+        listbox_layer5.grid(row=4, column=1)
+        scrollbar_layer5.config(command=listbox_layer5.yview)
+
+        char_button[4] = Button(new_root, text="Choose", command= lambda: choose(_layer=5,
+                            _charact=listbox_layer5.get(listbox_layer5.curselection()[0]) , _row=4))
+        char_button[4].grid(row=4, column=3)
+
+
+        initiate_button = Button(new_root, text="Select Test Plan", command = run_smart_test)
+        initiate_button.grid(row=5, column=0)
+
+    @staticmethod
+    def help():
+        help_text = tpb.test_planner.help_text()
+        new_root = Toplevel()
+        new_root.geometry("500x400")
+        T = Text(new_root, height=20, width=60)
+        T.pack()
+        T.insert(END,help_text )
+
+
 
 da = DAWindow()
 te = TPBWindow()

@@ -11,17 +11,17 @@ class IoTCharacterization (object):
         self.layers = [dict(), dict(), dict(), dict(), dict()]
 
     def add_characterization(self, _layer=1, _char=('type', 'value')):
-        if _char[0] in self.layers[_layer]:
-            self.layers[_layer][_char[0]].append(_char[1])
+        if _char[0] in self.layers[_layer-1]:
+            self.layers[_layer-1][_char[0]].append(_char[1])
         else:
-            self.layers[_layer][_char[0]] = [_char[1]]
+            self.layers[_layer-1][_char[0]] = [_char[1]]
 
     def print_all(self):
-        for i in range (1, 5):
+        for i in range(0, 5):
             print "Layer ", i, " : ",
             print self.layers[i]
 
-    def find_tuple(self,  _char=('type', 'value'), _layers=(1, 2, 3, 4, 5)):
+    def find_tuple(self,  _char=('type', 'value'), _layers=(0, 1, 2, 3, 4)):
         for layer in _layers:
             for item in self.layers[layer]:
                 if _char[0] in self.layers[layer]:
@@ -42,14 +42,13 @@ class TPB(ToolBasic.ToolBasic):
             self.test_plan = TestPlan(_list)
         self.test_plan_path = "Core/Base/TestPlan"
         self.iot = IoTCharacterization()
-        self.iot_all = IoTCharacterization()
+        self.iot_all = self.build_characterization_list_full()
         self.iot_user = IoTCharacterization()
 
     def help_text(self):
-        print "Help Text Method"
         f = self.open_file("Core/TPB/help.txt")
         help_text = f.read()
-        print help_text
+        return help_text
 
     def full_test_plan(self):
         groups = self.list_all_groups()
@@ -103,9 +102,9 @@ class TPB(ToolBasic.ToolBasic):
         return verify
 
     def smart_test_plan(self):
-        self.iot_all = self.build_characterization_list_full()
-        self.iot_all.print_all()
-        self.user_characterization()
+        # self.iot_all = self.build_characterization_list_full()
+        # self.iot_all.print_all()
+        # self.user_characterization()
         self.iot_user.print_all()
         temp_test_plan = []
         for group in self.list_all_groups():
@@ -165,14 +164,14 @@ class TPB(ToolBasic.ToolBasic):
         iot_group = IoTCharacterization()
         self.build_characterization_list_group(iot_group, group)
         # for each item in iot_group we check if it included in iot_user
-        for layer_num in range(1, 5):
-            for item in iot_group.layers[layer_num]:
-                value = iot_group.layers[layer_num][item]
+        for layer_num in range(1, 6):
+            for item in iot_group.layers[layer_num-1]:
+                value = iot_group.layers[layer_num-1][item]
                 print item, value
                 # check all list value, just one need to be found
                 value_flag = False
                 for v in value:
-                    if self.iot_user.find_tuple(_char=(item,v), _layers=[layer_num]):
+                    if self.iot_user.find_tuple(_char=(item,v), _layers=[layer_num-1]):
                         value_flag = True
                 if not value_flag:
                     return False

@@ -8,7 +8,7 @@
 
 	<testplan>
 		<layer1 layer="1">
-			<char type="Device">Galileo</char>
+			<char type="device">Galileo</char>
 		</layer1>
 		<layer2 layer="2"/>
 		<layer3 layer="3">
