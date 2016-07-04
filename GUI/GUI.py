@@ -157,9 +157,15 @@ class TPBWindow(object):
     @staticmethod
     def smart():
         scrollbar = ['']*5
-        listboxs  = ['']*5
+        listboxs = ['']*5
         char_button = ['']*5
         select_buttons = ['']*5
+
+        def show_charac():
+            text = Text(new_root, width=45, height=5)
+            text.delete(1.0, END)
+            text.insert(END, tpb.test_planner.iot_user.print_all())
+            text.grid(row=6, column=0)
 
         def run_smart_test():
             tpb.test_planner.smart_test_plan()
@@ -167,6 +173,7 @@ class TPBWindow(object):
 
         def select(_layer, _charact, _option):
             tpb.test_planner.iot_user.add_characterization(_layer, (_charact, _option))
+            show_charac()
 
         def choose(_layer, _charact, _row):
             scrollbar[_layer-1] = Scrollbar(new_root)
@@ -216,7 +223,7 @@ class TPBWindow(object):
         scrollbar_layer2.config(command=listbox_layer2.yview)
 
         char_button[1] = Button(new_root, text="Choose", command= lambda: choose(_layer=2,
-                            _charact=listbox_layer2.get(listbox_layer2.curselection()[0]) , _row=1))
+                            _charact=listbox_layer2.get(listbox_layer2.curselection()[0]), _row=1))
         char_button[1].grid(row=1, column=3)
 
         # row 3
@@ -261,9 +268,15 @@ class TPBWindow(object):
                             _charact=listbox_layer5.get(listbox_layer5.curselection()[0]) , _row=4))
         char_button[4].grid(row=4, column=3)
 
+        # row 6, finish button
 
-        initiate_button = Button(new_root, text="Select Test Plan", command = run_smart_test)
+        initiate_button = Button(new_root, text="Select Test Plan", command=run_smart_test)
         initiate_button.grid(row=5, column=0)
+
+        # show_tp_button = Button(new_root, text="Show Current Characterization", command=show_charac)
+        # show_tp_button.grid(row=5, column=1)
+
+        show_charac()
 
     @staticmethod
     def help():
