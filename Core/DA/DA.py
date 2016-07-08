@@ -45,11 +45,21 @@ class DA(ToolBasic.ToolBasic):
         help_text = f.read()
         print help_text
 
-    def display(self):
-        print "Display tests data_log files:"
+    def display_all(self):
+        string = "Display tests data_log files:\n"
         my_path = self.path_abs() + "Groups\\"
-        print self.test_plan.group_list
+        string += str ( self.test_plan.group_list )
         for test in self.test_plan.group_list:
-            print ("Display data for ___ %s ___ test:" % test)
+            string += ("Display data for ___ %s ___ test:\n" % test)
             f = open(my_path+test+"\\data_log", 'r')
-            print(f.read())
+            string += f.read()
+        return string
+
+    def display(self, _group):
+        string = "Display tests data_log files:\n"
+        my_path = self.path_abs() + "Groups\\"
+        string += str ( _group )
+        string += ("Display data for ___ %s ___ test:\n" % _group)
+        f = open(my_path+_group+"\\data_log", 'r')
+        string += f.read()
+        return string

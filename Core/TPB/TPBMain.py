@@ -18,25 +18,35 @@ class IoTCharacterization (object):
 
     def remove_characterization(self, _layer=1, _char=('type', 'value')):
         # add remove characterization method here
-        pass
+        if _char[0] in self.layers[_layer-1]:
+            self.layers[_layer-1][_char[0]].remove(_char[1])
+            if not self.layers[_layer-1][_char[0]]:
+                self.layers[_layer-1].pop(_char[0], None)
+        else:
+            pass
 
     def print_all(self):
         string = ""
         for i in range(0, 5):
             string += "Layer %s : " % i
-            for item in self.layers[i].itervalues():
-                string += ','.join(item)
+            string += str(self.layers[i])
+            #  for item in self.layers[i].itervalues():
+            #     string += ','.join(item)
             string += "\n"
         return string
 
     def find_tuple(self,  _char=('type', 'value'), _layers=(0, 1, 2, 3, 4)):
         for layer in _layers:
+            if not self.layers[layer]:
+                return True
             for item in self.layers[layer]:
                 if _char[0] in self.layers[layer]:
                     if self.layers[layer][_char[0]] == [_char[1]]:
                         return True
                     elif self.layers[layer][_char[0]] == ['all']:
                         return True
+                else:
+                    return True
         return False
 
 

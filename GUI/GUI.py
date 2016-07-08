@@ -15,17 +15,18 @@ class DAWindow(object):
 
     def run(self):
         self.root = Toplevel()
-        self.root.geometry('600x80')
+        self.root.geometry('280x60')
         self.root.wm_title("DA")
-        background_image = jpg_image("GUI/pic/cyber_tpb.jpg")
-        background_label=Label(self.root, image=background_image, width=240, height=300)
-        background_label.place(x=140,y=0,relwidth=1, relheight=1)
+        # background_image = jpg_image("GUI/pic/cyber_tpb.jpg")
+        # background_label=Label(self.root, image=background_image, width=240, height=300)
+        # background_label.place(x=140,y=0,relwidth=1, relheight=1)
 
-        f1 = Frame(self.root, height=32, width=240)
+        f1 = Frame(self.root, height=32, width=120)
         f1.pack_propagate(0)
-        button1 = Button(f1, text="Display", command=data_analyzer.display)
-        button1.pack(fill=BOTH, expand=1)
-        f1.grid(row=1, column=0)
+        select_button = Button(f1, text="Display", command=lambda: self.display(
+                                group=listbox.get(listbox.curselection()[0])))
+        select_button.pack(fill=BOTH, expand=1)
+        f1.grid(row=0, column=0)
 
         """
         f2 = Frame(self.root, height=32, width=240)
@@ -35,13 +36,29 @@ class DAWindow(object):
         f2.grid(row=2)
         """
 
-        f3 = Frame(self.root, height=32, width=240)
+        f3 = Frame(self.root, height=32, width=120)
         f3.pack_propagate(0)
         button3 = Button(f3, text="Exit", command=self.root.destroy)
         button3.pack(fill=BOTH, expand=1)
-        f3.grid(row=3)
+        f3.grid(row=1, column=0)
+
+        scrollbar = Scrollbar(self.root)
+        scrollbar.grid(row=0, rowspan=2, column=2)
+        listbox = Listbox(self.root, yscrollcommand=scrollbar, height=3)
+        for option in tpb.test_planner.get_test_plan().get_list():
+            listbox.insert(END, option)
+        listbox.grid(row=0, rowspan=2, column=1)
+        scrollbar.config(command=listbox.yview)
 
         self.root.mainloop()
+
+    @staticmethod
+    def display(group):
+        new_root = Toplevel()
+        text = Text(new_root, width=100, height=100)
+        text.delete(1.0, END)
+        text.insert(END, data_analyzer.display(group))
+        text.pack()
 
 
 class TPBWindow(object):
@@ -160,12 +177,13 @@ class TPBWindow(object):
         listboxs = ['']*5
         char_button = ['']*5
         select_buttons = ['']*5
+        remove_buttons = ['']*5
 
         def show_charac():
-            text = Text(new_root, width=45, height=5)
+            text = Text(new_root, width=90, height=5)
             text.delete(1.0, END)
             text.insert(END, tpb.test_planner.iot_user.print_all())
-            text.grid(row=6, column=0)
+            text.grid(row=6, column=0, columnspan=7)
 
         def run_smart_test():
             tpb.test_planner.smart_test_plan()
@@ -175,11 +193,15 @@ class TPBWindow(object):
             tpb.test_planner.iot_user.add_characterization(_layer, (_charact, _option))
             show_charac()
 
+        def remove(_layer, _charact, _option):
+            tpb.test_planner.iot_user.remove_characterization(_layer, (_charact, _option))
+            show_charac()
+
         def choose(_layer, _charact, _row):
             scrollbar[_layer-1] = Scrollbar(new_root)
             scrollbar[_layer-1].grid(row=_row, column=5)
             listboxs[_layer-1] = Listbox(new_root, yscrollcommand=scrollbar[_layer-1], height=3)
-            print _charact
+            # print _charact
             for option in tpb.test_planner.iot_all.layers[_layer-1][_charact]:
                 listboxs[_layer-1].insert(END, option)
             listboxs[_layer-1].grid(row=_row, column=4)
@@ -189,6 +211,10 @@ class TPBWindow(object):
                             _charact = _charact,
                             _option=listboxs[_layer-1].get(listboxs[_layer-1].curselection()[0])))
             select_buttons[_layer-1].grid(row=_row, column=6)
+            remove_buttons[_layer-1] = Button(new_root, text="Remove", command= lambda: remove(_layer=_layer,
+                            _charact = _charact,
+                            _option=listboxs[_layer-1].get(listboxs[_layer-1].curselection()[0])))
+            remove_buttons[_layer-1].grid(row=_row, column=7)
 
 
 
@@ -288,7 +314,6 @@ class TPBWindow(object):
         T.insert(END,help_text )
 
 
-
 da = DAWindow()
 te = TPBWindow()
 
@@ -337,13 +362,12 @@ class MainWindow(object):
         self.root.mainloop()
 
     def test_plan_msg(self):
-        lst = ui.get_test_plan().get_list()
-        text = "Test Plan:\n"
-        for item, num in zip(lst, range(len(lst))):
-            text = text + str(num+1) + ". " + item + "\n"
-        msg = Message(self.root, text=text)
-        msg.config(bg='grey', font=('times', 8))
-        msg.pack()
+        help_text = '\n'.join(ui.get_test_plan().get_list())
+        new_root = Toplevel()
+        new_root.geometry("500x400")
+        T = Text(new_root, height=20, width=60)
+        T.pack()
+        T.insert(END,help_text )
 
 
 if __name__ == "__main__":

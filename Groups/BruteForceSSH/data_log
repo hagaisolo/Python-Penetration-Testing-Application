@@ -1,94 +1,224 @@
 BruteForceGroup
-Test run on: 2016-06-23 13:26:17.219000
+Test run on: 2016-07-08 13:04:17.997000
 Parsed Successfully
 Testing if root login is enable:
-###############Succeed Login############# - password is:    ,  user name is:root
-Failed to Login - password is not  for user name ==> cavesson
-Authentication failed.
-Failed to Login - password is not  for user name ==> caves
-Authentication failed.
-Failed to Login - password is not  for user name ==> cavetto
-Authentication failed.
-###############Succeed Login############# - password is:    ,  user name is:root
-Failed to Login - password is not  for user name ==> cavicorn
-Authentication failed.
-Failed to Login - password is not  for user name ==> cavie
-Authentication failed.
-Failed to Login - password is not  for user name ==> caviar
-Authentication failed.
-Penetration succeeded, user name is: root
+Error on Thread: Thread 0
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 0
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 1
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 2
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 3
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 4
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 5
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 6
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
 Tried 7 user names with empty password
  Trying user names with passwords
-Failed to Login - password is not casto for user name ==> cavie
-Authentication failed.
-Failed to Login - password is not casto for user name ==> cavicorn
-Authentication failed.
-Failed to Login - password is not casto for user name ==> root
-Authentication failed.
-Failed to Login - password is not casto for user name ==> caviar
-Authentication failed.
-Failed to Login - password is not casto for user name ==> cavetto
-Authentication failed.
-Failed to Login - password is not casto for user name ==> caves
-Authentication failed.
-Failed to Login - password is not casto for user name ==> cavesson
-Authentication failed.
-Failed to Login - password is not castoff for user name ==> caves
-Authentication failed.
-Failed to Login - password is not castoff for user name ==> cavetto
-Authentication failed.
-Failed to Login - password is not castoff for user name ==> cavesson
-Authentication failed.
-Failed to Login - password is not castoff for user name ==> caviar
-Authentication failed.
-Failed to Login - password is not castoff for user name ==> cavicorn
-Authentication failed.
-Failed to Login - password is not castoff for user name ==> root
-Authentication failed.
-Failed to Login - password is not castoff for user name ==> cavie
-Authentication failed.
-Failed to Login - password is not caston for user name ==> caves
-Authentication failed.
-Failed to Login - password is not caston for user name ==> cavie
-Authentication failed.
-Failed to Login - password is not caston for user name ==> root
-Authentication failed.
-Failed to Login - password is not caston for user name ==> cavicorn
-Authentication failed.
-Failed to Login - password is not caston for user name ==> cavesson
-Authentication failed.
-Failed to Login - password is not caston for user name ==> cavetto
-Authentication failed.
-Failed to Login - password is not caston for user name ==> caviar
-Authentication failed.
-Failed to Login - password is not castor for user name ==> caves
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavetto
-Authentication failed.
-Failed to Login - password is not castor for user name ==> caves
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavie
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavesson
-Authentication failed.
-Failed to Login - password is not castor for user name ==> root
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavicorn
-Authentication failed.
-Failed to Login - password is not castor for user name ==> caviar
-Authentication failed.
-Failed to Login - password is not castor for user name ==> caviar
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavicorn
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavesson
-Authentication failed.
-Failed to Login - password is not castor for user name ==> root
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavie
-Authentication failed.
-Failed to Login - password is not castor for user name ==> cavetto
-Authentication failed.
+Error on Thread: Thread 7
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 8
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 9
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 10
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 11
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 12
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 13
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 7
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 8
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 9
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 10
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 11
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 12
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 13
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 7
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 8
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 9
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 10
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 11
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 12
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 13
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 7
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 8
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 9
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 10
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 11
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 12
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 13
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 7
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 8
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 9
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 10
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 11
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 12
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
+Error on Thread: Thread 13
+Socket Error
+[Errno 10060] A connection attempt failed because the connected party did not properly respond after a period of time, or established connection failed because connected host has failed to respond
+
+
 Finish user with password testing
-Test end at 2016-06-23 13:27:00.159000
+Test end at 2016-07-08 13:06:25.569000
 Tested 7 user names with 5 passwords each

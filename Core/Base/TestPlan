@@ -13,4 +13,14 @@ Rp4
 S'group_list'
 p6
 (lp7
-sb.
+S'BruteForceSSH'
+p8
+aS'DoS'
+p9
+aS'GalileoHTTPFlood'
+p10
+aS'Ping'
+p11
+aS'PingB'
+p12
+asb.
