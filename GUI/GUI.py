@@ -1,13 +1,15 @@
 from Tkinter import *
 import tkMessageBox
 from PIL import ImageTk, Image
+import pickle
 import UI
 from Core.DA import DA
+from Core.PG import PGMain
 
 data_analyzer = DA.DA()
 ui = UI.UI()
 tpb = UI.BuildTestPlan()
-
+gatherer = PGMain.PG()
 
 class DAWindow(object):
     def __init__(self):
@@ -314,9 +316,83 @@ class TPBWindow(object):
         T.insert(END,help_text )
 
 
+class PGWindow(object):
+    def __init__(self):
+        gatherer.group_list = gatherer.get_test_plan().get_list()
+        gatherer.gather_param_demand()
+        gatherer.insert_default_values()
+
+    def run(self):
+        self.root = Toplevel()
+        self.root.geometry('600x140')
+        self.root.wm_title("Parameter Gatherer")
+
+        def answer(item):
+            frame_answer = Frame(self.root, height=140, width=200)
+            frame_answer.pack_propagate(0)
+            entry = Entry(frame_answer)
+            entry.insert(END, (self.findQuestion(item)))
+            entry.pack(fill=BOTH, expand=1)
+
+            def send_answer():
+                gatherer.parameters_values[item] = entry.get()
+                listbox.delete(ANCHOR)
+                entry.destroy()
+                send_button.destroy()
+
+            send_button = Button(frame_answer, text="Send", command=send_answer)
+            send_button.pack(fill=BOTH, expand=1)
+            frame_answer.grid(row=0, column=2)
+
+        f1 = Frame(self.root, height=140, width=200)
+        f1.pack_propagate(0)
+        select_button = Button(f1, text="Answer", command=lambda: answer(
+                                item=listbox.get(listbox.curselection())))
+        select_button.pack(fill=BOTH, expand=1)
+        button2 = Button(f1, text="Finish", command=self.finish)
+        button2.pack(fill=BOTH, expand=1)
+        button3 = Button(f1, text="Exit", command=self.root.destroy)
+        button3.pack(fill=BOTH, expand=1)
+        f1.grid(row=0, column=0)
+
+        frame_list = Frame(self.root, height=140, width=200)
+        scrollbar = Scrollbar(frame_list)
+        listbox = Listbox(frame_list, yscrollcommand=scrollbar, height=8)
+        for option in gatherer.parsed_parameters:
+            listbox.insert(END, option[0])
+        listbox.pack(side=LEFT, fill=BOTH, expand=1)
+        scrollbar.pack(side=LEFT, fill=BOTH, expand=1)
+        scrollbar.config(command=listbox.yview)
+        frame_list.grid(row=0, column=1)
+
+        self.root.mainloop()
+
+
+
+    @staticmethod
+    def finish():
+        gatherer.parameters = gatherer.parameters_values
+        print gatherer.parameters
+        gatherer.parameters_to_file()
+
+    @staticmethod
+    def strToTupleDict(string):
+        temp = open('temp', 'wb')
+        pickle.dump(string, temp)
+        temp.close()
+        temp = open('temp', 'rb')
+        tuple_dict = pickle.load(temp)
+        temp.close()
+        return tuple_dict
+
+    def findQuestion(self, name):
+        for item in gatherer.parsed_parameters:
+            if item[0] == name :
+                return item[1]['question']
+
 da = DAWindow()
 te = TPBWindow()
-
+pg = PGWindow()
 
 def jpg_image(img_path):
     # Creates a Tkinter-compatible photo image, which can be used everywhere Tkinter expects an image object.
@@ -341,7 +417,7 @@ class MainWindow(object):
         button1 = Button(f_top_left, text="Create Test Plan", command=te.run, height=2)
         button1.pack(side=TOP, fill=X)
 
-        button2 = Button(f_top_left, text="Get Parameters", command=ui.gather_parameters,  height=2)
+        button2 = Button(f_top_left, text="Get Parameters", command=pg.run,  height=2)
         button2.pack(side=TOP, fill=X)
 
         button3 = Button(f_top_left, text="Tests Results", command=da.run,  height=2)

@@ -9,6 +9,7 @@
 # self.parameter structure: cell#0 parameter name ; cell#1 parameter value
 import xml.etree.ElementTree as Et
 from Core.Base import ToolBasic
+import pickle
 
 
 class PG(ToolBasic.ToolBasic):
@@ -20,6 +21,7 @@ class PG(ToolBasic.ToolBasic):
         self.parameters = []
         self.group_list = []
         self.Menu = True
+        self.parameters_values = dict()
 
     def intro_menu(self):
         print "Welcome To The PG"
@@ -52,7 +54,6 @@ class PG(ToolBasic.ToolBasic):
                 return True
         return False
 
-
     def insert_default_values(self):
         # insert default values
         for item in self.parsed_parameters:
@@ -77,3 +78,8 @@ class PG(ToolBasic.ToolBasic):
 
     def gather_tool_parameter(self, _module_name='sys', _class_name='path'):
         module_name, class_name = self.dynamic_importer(_module_name, _class_name)
+
+    def parameters_to_file(self):
+        param_file = open('Groups//parameters', 'wb')
+        pickle.dump(self.parameters, param_file)
+        param_file.close()
