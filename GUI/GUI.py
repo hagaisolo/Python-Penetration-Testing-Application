@@ -318,6 +318,9 @@ class TPBWindow(object):
 
 class PGWindow(object):
     def __init__(self):
+        pass
+
+    def refresh(self):
         gatherer.group_list = gatherer.get_test_plan().get_list()
         gatherer.gather_param_demand()
         gatherer.insert_default_values()
@@ -326,6 +329,8 @@ class PGWindow(object):
         self.root = Toplevel()
         self.root.geometry('600x140')
         self.root.wm_title("Parameter Gatherer")
+
+        self.refresh()
 
         def answer(item):
             frame_answer = Frame(self.root, height=140, width=200)
