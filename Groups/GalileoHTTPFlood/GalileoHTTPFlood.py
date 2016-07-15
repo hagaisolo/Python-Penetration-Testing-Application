@@ -124,7 +124,7 @@ def tcp_packet(_port):
     dst = hex(_port)
 
 
-if __name__ == "__main__":
+def main():
     data_log = open("Groups//GalileoHTTPFlood//data_log", 'w')
     data_log.write("********************** GalileoHTTPFlood test **********************\n")
     parameters = collect_param()
@@ -133,7 +133,7 @@ if __name__ == "__main__":
     com = Communicator(_ip=parsed_parameters_main["_IP"], _port=parsed_parameters_main["_Port"])
     if com.communicate() is False:
         data_log.write("Cannot initiate communication at all\n Exists test\n")
-        exit(1)
+        return
 
     for NUM_CANNON in range(1, 2):
         data_log.write("Test device resistance to tcp flood of %s Cannons\n" % NUM_CANNON)
@@ -145,12 +145,13 @@ if __name__ == "__main__":
         if com.communicate() is False:
             data_log.write("Could resist up to %s Cannons\n" % (NUM_CANNON - 1))
             data_log.write("GalileoHTTPFlood Test Finished\n")
-            exit(0)
+            return
         else:
             data_log.write("Device Resisted %s Cannons\n" % NUM_CANNON)
     data_log.write("Test Finished Correctly")
     data_log.close()
-    exit(0)
+    return
 
 
-
+if __name__ == "__main__":
+    main()

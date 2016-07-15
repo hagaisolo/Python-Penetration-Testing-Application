@@ -14,6 +14,11 @@ from Core.DA import DA
 from Core.PG import PGMain
 from Core.TPB import TPBMain
 from Core.Base import ToolBasic
+import threading
+from threading import Thread
+import sys
+import imp
+import datetime
 
 TPB = TPBMain.TPB
 switch_case = ToolBasic.switch
@@ -59,11 +64,25 @@ class UI(ToolBasic.ToolBasic):
         param_file.close()
 
     def run_tests(self):
+        # add support for linux (bash command if this is linux )
         print "You've selected run_tests method"
         test_plan = self.get_test_plan()
         for item in test_plan.group_list:
-            process = Popen([executable, 'Groups//'+item+'//' + item + '.py'], creationflags=CREATE_NEW_CONSOLE)
-            stdoutdate, stderrdata = process.communicate()
+            path = sys.path[0] + "/Groups/"+item
+            name = item
+            print path
+            # process = Popen([executable, cmd], creationflags=CREATE_NEW_CONSOLE)
+            # stdoutdate, stderrdata = process.communicate()
+            try:
+                file_im, filename_im, data_im = imp.find_module(name, [path])
+                test = imp.load_module(item, file_im, filename_im, data_im)
+                t1 = Thread(target=test.main)
+                t1.start()
+                t1.join()
+            except ImportError as e:
+                print e
+            # print stdoutdate
+            # print stderrdata
 
     @staticmethod
     def build_test_plan():

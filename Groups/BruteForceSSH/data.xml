@@ -3,7 +3,7 @@
 	<parameters number="2">
 		<ip type="int" question="What is the device IP address?"/>
 		<port type="int" question="device port?"/>
-        <network type="bool" question="Are you connected via cloud?"/>
+        <network type="bool" question="Are you able to connected with SSH (yes/no)?"/>
 	</parameters>
 
 	<testplan>
@@ -13,8 +13,9 @@
 		</layer2>
 		<layer3 layer="3"/>
 		<layer4 layer="4"/>
-		<layer5 layer="5"/>
-		<layer6 layer="6"/>
+		<layer5 layer="5">
+			<char type="SSH">yes</char>
+		</layer5>
     </testplan>
 
 	<tools number="0">

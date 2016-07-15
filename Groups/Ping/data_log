@@ -1,0 +1,11 @@
+Hello World This is Ping test
+Test run at: 2016-07-15 09:06:01.584000
+
+Pinging 0.0.0.133 with 32 bytes of data:
+PING: transmit failed. General failure. 
+PING: transmit failed. General failure. 
+
+Ping statistics for 0.0.0.133:
+    Packets: Sent = 2, Received = 0, Lost = 2 (100% loss),
+133 is DOWN!
+Ping Test proccess is Finished

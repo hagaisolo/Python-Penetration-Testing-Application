@@ -19,6 +19,7 @@ class ToolBasic(object):
     @staticmethod
     def list_all_groups():
         my_path = sys_path[0]+"\Groups"
+        print my_path
         group_list = listdir(my_path)
         group_list.remove("parameters")
         group_list.remove("__init__.py")

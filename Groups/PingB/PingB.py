@@ -14,6 +14,5 @@ if __name__ == "__main__":
     time.sleep(5)
     data_log_file.write("Test proccess is Finished")
     data_log_file.close()
-    exit(1)
 
 
