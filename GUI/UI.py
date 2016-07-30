@@ -8,7 +8,7 @@ GUI:
     run_test: run tests according to test plan after gathered parameters
 """
 import pickle
-from subprocess import Popen, CREATE_NEW_CONSOLE
+# from subprocess import Popen, CREATE_NEW_CONSOLE
 from sys import executable
 from Core.DA import DA
 from Core.PG import PGMain
@@ -68,7 +68,7 @@ class UI(ToolBasic.ToolBasic):
         print "You've selected run_tests method"
         test_plan = self.get_test_plan()
         for item in test_plan.group_list:
-            path = sys.path[0] + "/Groups/"+item
+            path = sys.path[0] + "/Groups/"+item +"/"
             name = item
             print path
             # process = Popen([executable, cmd], creationflags=CREATE_NEW_CONSOLE)
@@ -76,7 +76,9 @@ class UI(ToolBasic.ToolBasic):
             try:
                 file_im, filename_im, data_im = imp.find_module(name, [path])
                 test = imp.load_module(item, file_im, filename_im, data_im)
-                t1 = Thread(target=test.main)
+                print test
+		print ("Starting Thread...\n")
+	 	t1 = Thread(target=test.main)
                 t1.start()
                 t1.join()
             except ImportError as e:

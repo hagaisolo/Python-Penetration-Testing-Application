@@ -19,7 +19,6 @@
 		<layer5 layer="5"/>
     </testplan>
 
-	<tools number="1">
-		<nmap/>
+	<tools>
 	</tools>
 </data>

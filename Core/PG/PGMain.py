@@ -30,10 +30,10 @@ class PG(ToolBasic.ToolBasic):
         self.Menu = True
 
     def gather_param_demand(self):
-        my_path = self.path_abs() + "Groups\\"
+        my_path = self.path_abs() + "Groups/"
         parameter_demand_list = []
         for name in self.group_list:
-            data_file = my_path+name+"\data.xml"
+            data_file = my_path+name+"/data.xml"
             tree = Et.parse(data_file)
             root = tree.getroot()
             for element in root:

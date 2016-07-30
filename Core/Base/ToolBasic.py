@@ -18,7 +18,7 @@ class ToolBasic(object):
 
     @staticmethod
     def list_all_groups():
-        my_path = sys_path[0]+"\Groups"
+        my_path = sys_path[0]+"/Groups"
         print my_path
         group_list = listdir(my_path)
         group_list.remove("parameters")
@@ -58,7 +58,7 @@ class ToolBasic(object):
 
     @staticmethod
     def check_is_group_exists(group):
-        my_path = sys_path[0]+"\Groups"
+        my_path = sys_path[0]+"/Groups"
         for name in listdir(my_path):
             if name == group:
                 return True
@@ -81,10 +81,10 @@ class ToolBasic(object):
         return list(set(dup_list))
 
     def get_tool_demand(self, _test_plan):
-        my_path = self.path_abs() + "Groups\\"
+        my_path = sys_path[0] + "/Groups/"
         tool_list = []
         for item in _test_plan.get_list():
-            root_path = my_path + item + "\data.xml"
+            root_path = my_path + item + "/data.xml"
             tree = Et.parse(root_path)
             root = tree.getroot()
             for element in root:
@@ -117,8 +117,8 @@ class ToolBasic(object):
         return example_package, myclass
 
     def get_xml_root(self, _group="Ping"):
-        my_path = self.path_abs() + "Groups\\"
-        root_path = my_path + _group + "\data.xml"
+        my_path = self.path_abs() + "Groups/"
+        root_path = my_path + _group + "/data.xml"
         tree = Et.parse(root_path)
         root = tree.getroot()
         return root

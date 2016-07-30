@@ -92,7 +92,9 @@ def collect_param():
 
 
 if __name__ == "__main__":
+	main()
 
+def main():
     # initiating variable and log files
     data_log = open("Groups//BruteForceSSH//data_log", 'w')
     temp_stdout = sys.stdout

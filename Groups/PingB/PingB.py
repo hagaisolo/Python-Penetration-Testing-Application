@@ -5,6 +5,9 @@ import time
 import datetime
 
 if __name__ == "__main__":
+	main()
+
+def main():
     print ("This the PingB group")
     parameters = features.core_get_parameters()
     print parameters

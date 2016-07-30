@@ -19,7 +19,7 @@ def ping(ip, _data_log_file, count=1):
 
 
 def main():
-    data_log_file = open("Groups//Ping//data_log", 'w')
+    data_log_file = open("Groups/Ping/data_log", 'w')
     data_log_file.write("Hello World This is Ping test\n")
     data_log_file.write("Test run at: %s\n" % datetime.datetime.utcnow())
     parameters = features.core_get_parameters()
